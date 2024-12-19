@@ -56,7 +56,7 @@
                             <!-- Calculator Buttons -->
                             <Button style="-fx-background-radius: 1000;" styleClass="calculator-button" text="CE" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                             <Button style="-fx-background-radius: 1000;" styleClass="calculator-button" text="C" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                            <Button style="-fx-background-radius: 1000;" styleClass="calculator-button" text="/%" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                            <Button style="-fx-background-radius: 1000;" styleClass="calculator-button" text="\%" GridPane.columnIndex="2" GridPane.rowIndex="0" />
                             <Button style="-fx-background-radius: 1000;" styleClass="calculator-button, operator" text="÷" GridPane.columnIndex="3" GridPane.rowIndex="0" />
 
                             <Button style="-fx-background-radius: 1000;" styleClass="calculator-button" text="7" GridPane.columnIndex="0" GridPane.rowIndex="1" />
