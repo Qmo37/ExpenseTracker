@@ -8,7 +8,9 @@ public class CurrencyUtil {
     private static final NumberFormat CURRENCY_FORMAT =
             NumberFormat.getCurrencyInstance(Locale.US);
 
-    public static SimpleStringProperty formatCurrency(double amount) {
-        return new SimpleStringProperty(CURRENCY_FORMAT.format(amount));
+    public static String formatCurrency(double amount) {
+        return CURRENCY_FORMAT.format(amount);
     }
+
+
 }

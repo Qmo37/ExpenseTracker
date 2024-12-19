@@ -5,6 +5,7 @@ import com.example.expensetracker.util.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import java.time.LocalDate;
 
 public class ExpenseTrackerController {
     private final FinancialService financialService;
@@ -39,9 +40,46 @@ public class ExpenseTrackerController {
 
     private void setupBindings() {
         displayLabel.textProperty().bind(calculatorController.displayValueProperty());
-        budgetLabel.textProperty().bind(CurrencyUtil.formatCurrency(financialService.getBudget()));
+        budgetLabel.setText(CurrencyUtil.formatCurrency(financialService.getBudget()));
         tableViewController.initializeTable(historyTable, financialService.getRecords());
     }
 
-    // ... (other methods as in previous implementation)
+    private void setupTableView() {
+        tableViewController.initializeTable(historyTable, financialService.getRecords());
+    }
+
+    private void setupCalculator() {
+        calculatorController.initialize(calculator);
+    }
+
+    private void setupCategoryButtons() {
+        categorySection.getChildren().forEach(node -> {
+            if (node instanceof Button) {
+                Button button = (Button) node;
+                button.setOnAction(event -> {
+                    String category = button.getText();
+                    double amount = Double.parseDouble(displayLabel.getText());
+                    financialService.addExpense(LocalDate.now(), category, amount);
+                    updateSpending();
+                });
+            }
+        });
+    }
+
+    private void setupTypeChoiceBox() {
+        typeChoiceBox.getItems().addAll("Expense", "Income");
+        typeChoiceBox.setValue("Expense");
+    }
+
+    private void setupDatePicker() {
+        datePicker.setValue(LocalDate.now());
+    }
+
+    private void updateSpending() {
+
+        spendingLabel.setText(CurrencyUtil.formatCurrency(financialService.getTotalSpending()));
+
+
+    }
+
 }

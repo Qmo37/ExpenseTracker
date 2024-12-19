@@ -2,6 +2,7 @@ package com.example.expensetracker.controller;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.layout.GridPane;
 
 public class CalculatorController {
     private final StringProperty displayValue = new SimpleStringProperty("0");
@@ -93,6 +94,10 @@ public class CalculatorController {
             inputBuffer.append(".");
             displayValue.set(inputBuffer.toString());
         }
+    }
+
+    public void initialize(GridPane calculator) {
+        // Implementation of the initialize method
     }
 
 

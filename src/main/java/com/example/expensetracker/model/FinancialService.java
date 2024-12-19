@@ -57,4 +57,12 @@ public class FinancialService {
                 })
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));
     }
+    public void addExpense(LocalDate date, String category, double amount) {
+        // Implementation of the addExpense method
+    }
+
+    public double getTotalSpending() {
+        // Implementation of the getTotalSpending method
+        return 0.0; // Replace with actual implementation
+    }
 }

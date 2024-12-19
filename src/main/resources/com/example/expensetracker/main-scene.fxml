@@ -19,30 +19,30 @@
 
 <StackPane prefHeight="450" prefWidth="800" style="-fx-background-color: #2C2C2C; -fx-background-radius: 16;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.expensetracker.ExpenseTrackerController">
     <HBox>
-      <VBox alignment="CENTER" prefHeight="473.0" prefWidth="120.0">
-         <children>
-            <Pane prefHeight="388.0" prefWidth="60.0">
-               <children>
-                  <Button layoutX="3.0" layoutY="146.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#initialize" onMouseClicked="#initialize" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 1000; -fx-background-color: #D0BCFF;" text="1" textAlignment="CENTER" textFill="WHITE">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Button>
-                  <Button layoutX="3.0" layoutY="209.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#initialize" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 1000; -fx-background-color: #D0BCFF;" text="2" textAlignment="CENTER" textFill="WHITE">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Button>
-               </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Pane>
-         </children>
-         <padding>
-            <Insets left="8.0" right="8.0" />
-         </padding>
-      </VBox>
+        <VBox alignment="CENTER" prefHeight="473.0" prefWidth="120.0">
+            <children>
+                <Pane prefHeight="388.0" prefWidth="60.0">
+                    <children>
+                        <Button layoutX="3.0" layoutY="146.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#initialize" onMouseClicked="#initialize" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 1000; -fx-background-color: #D0BCFF;" text="1" textAlignment="CENTER" textFill="WHITE">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </Button>
+                        <Button layoutX="3.0" layoutY="209.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#initialize" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 1000; -fx-background-color: #D0BCFF;" text="2" textAlignment="CENTER" textFill="WHITE">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </Button>
+                    </children>
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                </Pane>
+            </children>
+            <padding>
+                <Insets left="8.0" right="8.0" />
+            </padding>
+        </VBox>
         <BorderPane prefWidth="800.0" style="-fx-background-color: #1E1E1E; -fx-background-radius: 32 0 0 32;">
             <!-- Left Input Section -->
             <left>
@@ -52,13 +52,13 @@
                             <Insets bottom="20" left="20" right="20" top="20" />
                         </padding>
                         <HBox alignment="CENTER_LEFT" prefWidth="284.0" spacing="20.0">
-                     <VBox alignment="BOTTOM_LEFT" spacing="10.0">
-                        <children>
-                                  <!-- Date Picker -->
-                                  <DatePicker fx:id="datePicker" prefHeight="26.0" prefWidth="115.0" promptText="Select Date" showWeekNumbers="true" style="-fx-background-color: #403D49; -fx-background-radius: 32; -fx-padding: 0 0 0 5;" styleClass="date-picker" />
-                           <ChoiceBox prefWidth="150.0" style="-fx-background-color: #403D49; -fx-background-radius: 32;" />
-                        </children>
-                     </VBox>
+                            <VBox alignment="BOTTOM_LEFT" spacing="10.0">
+                                <children>
+                                    <!-- Date Picker -->
+                                    <DatePicker fx:id="datePicker" prefHeight="26.0" prefWidth="115.0" promptText="Select Date" showWeekNumbers="true" style="-fx-background-color: #403D49; -fx-background-radius: 32; -fx-padding: 0 0 0 5;" styleClass="date-picker" />
+                                    <ChoiceBox prefWidth="150.0" style="-fx-background-color: #403D49; -fx-background-radius: 32;" />
+                                </children>
+                            </VBox>
 
                             <!-- Calculator Display -->
                             <Label fx:id="displayLabel" alignment="TOP_LEFT" minHeight="70.0" style="-fx-background-color: #403D49;" styleClass="calculator-display" text="0" textAlignment="CENTER">
@@ -151,12 +151,12 @@
                                 <TableColumn fx:id="amountColumn" prefWidth="75.0" style="-fx-background-color: #332D41;" text="Amount" />
                                 <TableColumn fx:id="categoryColumn" prefWidth="75.0" style="-fx-background-color: #332D41;" text="Category" />
                             </columns>
-                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                     </columnResizePolicy>
-                     <padding>
-                        <Insets left="10.0" right="10.0" top="8.0" />
-                     </padding>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                            </columnResizePolicy>
+                            <padding>
+                                <Insets left="10.0" right="10.0" top="8.0" />
+                            </padding>
                         </TableView>
                         <Label alignment="CENTER" styleClass="history-title" text="History" textFill="#cfbdff" />
                     </VBox>

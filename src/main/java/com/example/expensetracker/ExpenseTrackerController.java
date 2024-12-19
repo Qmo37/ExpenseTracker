@@ -29,6 +29,8 @@ public class ExpenseTrackerController {
     @FXML private Label budgetLabel;
     @FXML private Label spendingLabel;
     @FXML private Button enterButton;
+    @FXML private VBox categorySection;
+
 
     // Category buttons
     private List<Button> categoryButtons = new ArrayList<>();
@@ -54,6 +56,8 @@ public class ExpenseTrackerController {
 
         // Setup enter button
         setupEnterButton();
+
+
     }
 
     private void setupCalculator() {
@@ -155,6 +159,7 @@ public class ExpenseTrackerController {
             button.getStyleClass().add("category-button");
             button.setOnAction(e -> selectCategory(category, button));
             categoryButtons.add(button);
+            categorySection.getChildren().add(button);
         }
     }
 
