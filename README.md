@@ -80,3 +80,10 @@ The application follows an MVC (Model-View-Controller) architecture pattern, wit
 - Models (managing data and business logic)
 
 The UI is built using JavaFX, with FXML for layout definition and CSS for styling. The application provides a comprehensive solution for personal finance tracking with both expense and revenue management capabilities.
+
+### TODO List
+- [x] Add a chart page to display financial data, e.g., pie chart, bar chart, or simply just search by date, etc.
+- [x] Change overview panel from budget and spending to revenue, expense, and balance.
+- [x] Change category selection from text to icons.
+- [x] Optimize the CSS, especially for the table view.
+- [x] You tell me! Feel free to suggest any new features or improvements. (We might not be able to implement any of them.)
