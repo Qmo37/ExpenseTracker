@@ -35,6 +35,8 @@ public class ExpenseTrackerController {
     @FXML private VBox categorySection;
     @FXML private ComboBox<FinancialRecord.TransactionType> typeComboBox;
 
+
+
     private final List<Button> categoryButtons = new ArrayList<>();
 
     public ExpenseTrackerController() {
@@ -49,7 +51,7 @@ public class ExpenseTrackerController {
 
         // Setup calculator
         calculatorController.setupCalculator(calculator);
-        displayLabel.textProperty().bind(calculatorController.currentCalculatorValueProperty());
+        displayLabel.textProperty().bind(calculatorController.displayValueProperty());
 
         // Setup transaction type combo box
         typeComboBox.setItems(FXCollections.observableArrayList(FinancialRecord.TransactionType.values()));

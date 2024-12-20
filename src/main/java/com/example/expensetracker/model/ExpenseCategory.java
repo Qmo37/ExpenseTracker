@@ -5,7 +5,14 @@ public enum ExpenseCategory {
     TRANSPORT("Transport"),
     SHOPPING("Shopping"),
     COFFEE("Coffee"),
-    GIFT("Gift");
+    GIFT("Gift"),
+    MEDICAL("Medical"),
+    ENTERTAINMENT("Entertainment"),
+    BILL("Bill"),
+    EDUCATION("Education"),
+    GROCERY("Grocery"),
+    OTHERS("Others");
+
 
     private final String displayName;
 

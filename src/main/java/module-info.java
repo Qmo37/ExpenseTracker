@@ -4,6 +4,7 @@ module com.example.expensetracker {
     requires javafx.web;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
+    requires java.desktop;
 
     opens com.example.expensetracker to javafx.fxml;
     opens com.example.expensetracker.controller to javafx.fxml;

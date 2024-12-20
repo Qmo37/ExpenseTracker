@@ -3,7 +3,7 @@ package com.example.expensetracker.model;
 public enum RevenueCategory {
     SALARY("Salary"),
     INVESTMENT("Investment"),
-    BONUS("Bonus"),
+    LOTTERY("Lottery"),
     INTEREST("Interest"),
     OTHER("Other");
 
