@@ -4,22 +4,31 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.IOException;
+import javafx.stage.StageStyle;
 
 public class Main extends Application {
     @Override
-    public void start(Stage primaryStage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/fxml/expense_tracker.fxml"));
-        Scene scene = new Scene(loader.load());
-        scene.getStylesheets().add(getClass().getResource("/view/styles/styles.css").toExternalForm());
+    public void start(Stage stage) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/com/example/expensetracker/main-scene.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
 
-        primaryStage.setTitle("Expense Tracker");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+            String cssResource = getClass().getResource("/com/example/expensetracker/styles.css").toExternalForm();
+            scene.getStylesheets().add(cssResource);
+
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 
     public static void main(String[] args) {
         launch(args);
+
+
     }
 }
