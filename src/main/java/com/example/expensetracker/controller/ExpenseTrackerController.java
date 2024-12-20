@@ -4,82 +4,163 @@ import com.example.expensetracker.model.*;
 import com.example.expensetracker.util.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import java.time.LocalDate;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.beans.property.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.scene.control.ComboBox;
 
 public class ExpenseTrackerController {
-    private final FinancialService financialService;
+    // Controllers
     private final CalculatorController calculatorController;
     private final TableViewController tableViewController;
+    private final FinancialService financialService;
 
-    @FXML private TableView<FinancialRecord> historyTable;
+    // Properties
+    private final DoubleProperty budget = new SimpleDoubleProperty(6000.0);
+    private String currentCategory = null;
+    private FinancialRecord.TransactionType currentType = FinancialRecord.TransactionType.EXPENSE;
+
+    // FXML injected controls
     @FXML private Label displayLabel;
     @FXML private DatePicker datePicker;
+    @FXML private GridPane calculator;
+    @FXML private TableView<FinancialRecord> historyTable;
     @FXML private Label budgetLabel;
     @FXML private Label spendingLabel;
-    @FXML private GridPane calculator;
-    @FXML private VBox categorySection;
     @FXML private Button enterButton;
-    @FXML private ChoiceBox<String> typeChoiceBox;
+    @FXML private VBox categorySection;
+    @FXML private ComboBox<FinancialRecord.TransactionType> typeComboBox;
+
+    private final List<Button> categoryButtons = new ArrayList<>();
 
     public ExpenseTrackerController() {
-        this.financialService = new FinancialService();
         this.calculatorController = new CalculatorController();
         this.tableViewController = new TableViewController();
+        this.financialService = new FinancialService();
     }
 
     @FXML
     public void initialize() {
-        setupBindings();
-        setupTableView();
-        setupCalculator();
+        datePicker.setValue(LocalDateTime.now().toLocalDate());
+
+        // Setup calculator
+        calculatorController.setupCalculator(calculator);
+        displayLabel.textProperty().bind(calculatorController.currentCalculatorValueProperty());
+
+        // Setup transaction type combo box
+        typeComboBox.setItems(FXCollections.observableArrayList(FinancialRecord.TransactionType.values()));
+        typeComboBox.setValue(FinancialRecord.TransactionType.EXPENSE);
+        typeComboBox.setOnAction(e -> updateCategoryButtons());
+
+        // Setup table
+        tableViewController.initialize(historyTable);
+
         setupCategoryButtons();
-        setupTypeChoiceBox();
-        setupDatePicker();
-    }
+        setupEnterButton();
+        updateDisplays();
 
-    private void setupBindings() {
-        displayLabel.textProperty().bind(calculatorController.displayValueProperty());
-        budgetLabel.setText(CurrencyUtil.formatCurrency(financialService.getBudget()));
-        tableViewController.initializeTable(historyTable, financialService.getRecords());
-    }
-
-    private void setupTableView() {
-        tableViewController.initializeTable(historyTable, financialService.getRecords());
-    }
-
-    private void setupCalculator() {
-        calculatorController.initialize(calculator);
+        // Bind displays to financial service
+        financialService.totalExpenseProperty().addListener((obs, old, newValue) ->
+                updateDisplays());
     }
 
     private void setupCategoryButtons() {
-        categorySection.getChildren().forEach(node -> {
-            if (node instanceof Button) {
-                Button button = (Button) node;
-                button.setOnAction(event -> {
-                    String category = button.getText();
-                    double amount = Double.parseDouble(displayLabel.getText());
-                    financialService.addExpense(LocalDate.now(), category, amount);
-                    updateSpending();
-                });
-            }
-        });
+        categorySection.getChildren().clear();
+        categoryButtons.clear();
+
+        // Get appropriate categories based on transaction type
+        String[] categories = (currentType == FinancialRecord.TransactionType.EXPENSE) ?
+                getExpenseCategories() : getRevenueCategories();
+
+        for (String category : categories) {
+            Button button = new Button(category);
+            button.getStyleClass().add("category-button");
+            button.setOnAction(e -> selectCategory(category, button));
+            categoryButtons.add(button);
+            categorySection.getChildren().add(button);
+        }
     }
 
-    private void setupTypeChoiceBox() {
-        typeChoiceBox.getItems().addAll("Expense", "Income");
-        typeChoiceBox.setValue("Expense");
+    private String[] getExpenseCategories() {
+        return ExpenseCategory.values().stream()
+                .map(ExpenseCategory::getDisplayName)
+                .toArray(String[]::new);
     }
 
-    private void setupDatePicker() {
-        datePicker.setValue(LocalDate.now());
+    private String[] getRevenueCategories() {
+        return RevenueCategory.values().stream()
+                .map(RevenueCategory::getDisplayName)
+                .toArray(String[]::new);
     }
 
-    private void updateSpending() {
-
-        spendingLabel.setText(CurrencyUtil.formatCurrency(financialService.getTotalSpending()));
-
-
+    private void updateCategoryButtons() {
+        currentType = typeComboBox.getValue();
+        currentCategory = null;
+        setupCategoryButtons();
     }
 
+    private void selectCategory(String category, Button button) {
+        categoryButtons.forEach(b -> b.getStyleClass().remove("selected"));
+        button.getStyleClass().add("selected");
+        currentCategory = category;
+    }
+
+    private void setupEnterButton() {
+        enterButton.setOnAction(e -> recordTransaction());
+    }
+
+    private void recordTransaction() {
+        if (currentCategory == null || !calculatorController.hasValue()) {
+            showAlert("Error", "Please select a category and enter an amount");
+            return;
+        }
+
+        try {
+            double amount = Double.parseDouble(calculatorController.getCurrentValue());
+            LocalDateTime dateTime = datePicker.getValue().atTime(
+                    LocalDateTime.now().getHour(),
+                    LocalDateTime.now().getMinute()
+            );
+
+            FinancialRecord record = new FinancialRecord(
+                    dateTime.toLocalDate().toString(),
+                    dateTime.toLocalTime().toString(),
+                    currentType,
+                    currentCategory,
+                    amount
+            );
+
+            financialService.addRecord(record);
+            tableViewController.addRecord(record);
+
+            updateDisplays();
+            calculatorController.clearCalculator();
+            clearCategorySelection();
+
+        } catch (NumberFormatException e) {
+            showAlert("Error", "Invalid amount");
+        }
+    }
+
+    private void updateDisplays() {
+        FinancialSummary summary = financialService.generateSummary();
+        budgetLabel.setText(String.format("Budget: $%.2f", budget.get()));
+        spendingLabel.setText(String.format("Spending: $%.2f", summary.getTotalExpense()));
+    }
+
+    private void clearCategorySelection() {
+        categoryButtons.forEach(b -> b.getStyleClass().remove("selected"));
+        currentCategory = null;
+    }
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }

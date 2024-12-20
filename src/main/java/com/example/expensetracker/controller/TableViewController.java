@@ -3,33 +3,51 @@ package com.example.expensetracker.controller;
 import com.example.expensetracker.model.FinancialRecord;
 import com.example.expensetracker.util.CurrencyUtil;
 import com.example.expensetracker.util.DateTimeUtil;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.collections.FXCollections;
 
 public class TableViewController {
-    public void initializeTable(TableView<FinancialRecord> tableView, ObservableList<FinancialRecord> records) {
-        setupColumns(tableView);
+    private TableView<FinancialRecord> tableView;
+    private final ObservableList<FinancialRecord> records = FXCollections.observableArrayList();
+
+    public void initialize(TableView<FinancialRecord> tableView) {
+        this.tableView = tableView;
+        setupColumns();
         tableView.setItems(records);
     }
 
-    private void setupColumns(TableView<FinancialRecord> tableView) {
-        // 日期欄位
+    private void setupColumns() {
         TableColumn<FinancialRecord, String> dateColumn = new TableColumn<>("Date");
         dateColumn.setCellValueFactory(data ->
-                DateTimeUtil.formatDateTime(data.getValue().getDateTime())); // 已經回傳 ObservableValue<String>
+                new SimpleStringProperty(data.getValue().getDate() + " " + data.getValue().getTime()));
 
-        // 類別欄位
+        TableColumn<FinancialRecord, String> typeColumn = new TableColumn<>("Type");
+        typeColumn.setCellValueFactory(data ->
+                new SimpleStringProperty(data.getValue().getType().toString()));
+
         TableColumn<FinancialRecord, String> categoryColumn = new TableColumn<>("Category");
         categoryColumn.setCellValueFactory(data ->
                 new SimpleStringProperty(data.getValue().getCategory()));
 
-        // 金額欄位
         TableColumn<FinancialRecord, String> amountColumn = new TableColumn<>("Amount");
         amountColumn.setCellValueFactory(data ->
-                new SimpleStringProperty(CurrencyUtil.formatCurrency(data.getValue().getAmount()))); // 將 String 包裝成 ObservableValue<String>
+                new SimpleStringProperty(String.format("$%.2f", data.getValue().getAmount())));
 
-        tableView.getColumns().setAll(dateColumn, categoryColumn, amountColumn);
+        tableView.getColumns().setAll(dateColumn, typeColumn, categoryColumn, amountColumn);
+    }
+
+    public void addRecord(FinancialRecord record) {
+        records.add(0, record);
+    }
+
+    public void clearRecords() {
+        records.clear();
+    }
+
+    public ObservableList<FinancialRecord> getRecords() {
+        return records;
     }
 }
