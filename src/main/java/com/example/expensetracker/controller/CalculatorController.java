@@ -4,8 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-
-import java.awt.*;
+import javafx.scene.control.Label;
 
 public class CalculatorController {
     private final StringProperty displayValue = new SimpleStringProperty("0");
@@ -13,14 +12,67 @@ public class CalculatorController {
     private boolean isNewCalculation = true;
     private double lastNumber = 0;
     private String lastOperator = "";
-    private Label displayLabel;
     private GridPane calculator;
+    private Label displayLabel;
+
+    public void initialize(GridPane calculator, Label displayLabel) {
+        this.calculator = calculator;
+        this.displayLabel = displayLabel;
+        setupCalculator();
+    }
 
     public StringProperty displayValueProperty() {
         return displayValue;
     }
 
+    public void setupCalculator() {
+        if (calculator == null) {
+            throw new IllegalStateException("Calculator GridPane not initialized");
+        }
 
+        String[][] buttons = {
+                {"CE", "C", "%", "÷"},
+                {"7", "8", "9", "×"},
+                {"4", "5", "6", "-"},
+                {"1", "2", "3", "+"},
+                {"±", "0", ".", "="}
+        };
+
+        for (String[] row : buttons) {
+            for (String buttonText : row) {
+                Button button = findCalculatorButton(buttonText);
+                if (button != null) {
+                    button.setOnAction(e -> handleCalculatorButton(buttonText));
+                }
+            }
+        }
+    }
+
+    private Button findCalculatorButton(String text) {
+        if (calculator == null) return null;
+
+        for (javafx.scene.Node node : calculator.getChildren()) {
+            if (node instanceof Button button && button.getText().equals(text)) {
+                return button;
+            }
+        }
+        return null;
+    }
+
+    private void handleCalculatorButton(String value) {
+        switch (value) {
+            case "C", "CE" -> clear();
+            case "+" -> handleOperator("+");
+            case "-" -> handleOperator("-");
+            case "×" -> handleOperator("*");
+            case "÷" -> handleOperator("/");
+            case "=" -> calculateResult();
+            case "±" -> negateCurrentValue();
+            case "." -> addDecimalPoint();
+            default -> handleNumber(value);
+        }
+        updateDisplay();
+    }
 
     private void handleNumber(String number) {
         if (isNewCalculation) {
@@ -63,6 +115,7 @@ public class CalculatorController {
         lastNumber = 0;
         lastOperator = "";
         displayValue.set("0");
+        isNewCalculation = true;
     }
 
     private void negateCurrentValue() {
@@ -89,67 +142,17 @@ public class CalculatorController {
         }
     }
 
-    public void initialize(GridPane calculator) {
-        this.calculator = calculator;
-        setupCalculator(calculator);
-
-    }
-
-    public void setupCalculator(GridPane calculator) {
-        String[][] buttons = {
-                {"CE", "C", "%", "÷"},
-                {"7", "8", "9", "×"},
-                {"4", "5", "6", "-"},
-                {"1", "2", "3", "+"},
-                {"±", "0", ".", "="}
-        };
-
-        for (String[] row : buttons) {
-            for (String buttonText : row) {
-                Button button = findCalculatorButton(buttonText);
-                if (button != null) {
-                    button.setOnAction(e -> handleCalculatorButton(buttonText));
-                }
-            }
-        }
-    }
-    private Button findCalculatorButton(String text) {
-        for (javafx.scene.Node node : calculator.getChildren()) {
-            if (node instanceof Button button && button.getText().equals(text)) {
-                return button;
-            }
-        }
-        return null;
-    }
-
-    private void handleCalculatorButton(String value) {
-        switch (value) {
-            case "C", "CE" -> clear();
-            case "+" -> handleOperator("+");
-            case "-" -> handleOperator("-");
-            case "×" -> handleOperator("*");
-            case "÷" -> handleOperator("/");
-            case "=" -> calculateResult();
-            case "±" -> negateCurrentValue();
-            case "." -> addDecimalPoint();
-            default -> handleNumber(value);
-        }
-        updateDisplay();
-    }
-
     private void updateDisplay() {
-        displayLabel.setText(displayValue.get());
-
+        if (displayLabel != null) {
+            displayLabel.setText(displayValue.get());
+        }
     }
 
     public boolean hasValue() {
-        return !displayValue.get().isEmpty();
+        return !displayValue.get().equals("0") && !displayValue.get().isEmpty();
     }
 
     public String getCurrentValue() {
         return displayValue.get();
     }
-
-
-    // ... (calculator methods as in previous implementation)
 }

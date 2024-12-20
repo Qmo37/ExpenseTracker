@@ -53,7 +53,7 @@ public class ExpenseTrackerController {
         datePicker.setValue(LocalDateTime.now().toLocalDate());
 
         // Setup calculator
-        calculatorController.setupCalculator(calculator);
+        calculatorController.initialize(calculator, displayLabel);
         displayLabel.textProperty().bind(calculatorController.displayValueProperty());
 
         // Setup transaction type combo box
@@ -132,7 +132,7 @@ public class ExpenseTrackerController {
             );
 
             FinancialRecord record = new FinancialRecord(
-                    DateTimeUtil.formatDateTime(dateTime).get(),
+                    dateTime,
                     currentType,
                     currentCategory,
                     amount
