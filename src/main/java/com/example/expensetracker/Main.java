@@ -11,7 +11,7 @@ public class Main extends Application {
     public void start(Stage stage) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/com/example/expensetracker/main-scene.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("/com/example/expensetracker/main-scene.fxml")); // 這裡的路徑要改
             Scene scene = new Scene(fxmlLoader.load());
 
             String cssResource = getClass().getResource("/com/example/expensetracker/styles.css").toExternalForm();
