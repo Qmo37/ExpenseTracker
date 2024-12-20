@@ -72,3 +72,24 @@
     -fx-text-fill: white;
     -fx-font-weight: bold;
 }
+scroll-pane {
+    -fx-background-color: #D0BCFF; /* 設置 ScrollPane 背景 */
+    -fx-background: #D0BCFF;
+    -fx-border-color: transparent; /* 移除邊框 */
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent; /* 確保視窗背景透明，讓 ScrollPane 背景生效 */
+}
+
+.scroll-pane .track {
+    -fx-background-color: #403D49; /* 修改滑軌背景為按鈕顏色 */
+}
+
+.scroll-pane .thumb {
+    -fx-background-color: #D0BCFF; /* 修改滑塊背景為按鈕顏色 */
+}
+
+#categorySection {
+    -fx-background-color: #D0BCFF; /* 設置 VBox 背景為按鈕顏色 */
+}

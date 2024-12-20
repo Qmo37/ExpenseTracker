@@ -122,7 +122,7 @@
                         <VBox alignment="TOP_CENTER" prefHeight="449.0" prefWidth="65" spacing="10" style="-fx-background-color: rgba(255,255,255,0.1); -fx-background-radius: 32;">
                             <!-- Add ScrollPane for categorySection -->
                             <ScrollPane fx:id="categoryScrollPane" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
-                                        style="-fx-background-color: #D0BCFF; -fx-background: #D0BCFF; -fx-border-color: #D0BCFF;">
+                                        style="-fx-background-color: #403D49; -fx-background: #403D49; -fx-border-color: #403D49;">
                                 <content>
                                     <VBox fx:id="categorySection" alignment="CENTER" prefWidth="65.0" spacing="10" style="-fx-background-color: #2D2A37" VBox.vgrow="ALWAYS" />
                                 </content>
