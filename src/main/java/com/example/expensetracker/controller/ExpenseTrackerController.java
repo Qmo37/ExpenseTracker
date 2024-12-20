@@ -7,13 +7,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.beans.property.*;
-
+import javafx.collections.FXCollections;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.collections.FXCollections;
-import javafx.scene.control.ComboBox;
 import java.util.EnumSet;
 
 public class ExpenseTrackerController {
@@ -36,9 +34,7 @@ public class ExpenseTrackerController {
     @FXML private Label spendingLabel;
     @FXML private Button enterButton;
     @FXML private VBox categorySection;
-    @FXML private ComboBox<FinancialRecord.TransactionType> typeComboBox;
-
-
+    @FXML private ComboBox<String> typeComboBox; // Changed to String type
 
     private final List<Button> categoryButtons = new ArrayList<>();
 
@@ -50,34 +46,69 @@ public class ExpenseTrackerController {
 
     @FXML
     public void initialize() {
-        datePicker.setValue(LocalDateTime.now().toLocalDate());
-
-        // Setup calculator
-        calculatorController.initialize(calculator, displayLabel);
-        displayLabel.textProperty().bind(calculatorController.displayValueProperty());
-
-        // Setup transaction type combo box
-        typeComboBox.setItems(FXCollections.observableArrayList(FinancialRecord.TransactionType.values()));
-        typeComboBox.setValue(FinancialRecord.TransactionType.EXPENSE);
-        typeComboBox.setOnAction(e -> updateCategoryButtons());
-
-        // Setup table
-        tableViewController.initialize(historyTable);
-
-        setupCategoryButtons();
-        setupEnterButton();
+        initializeDatePicker();
+        initializeCalculator();
+        initializeTypeComboBox();
+        initializeTable();
+        initializeCategoryButtons();
+        initializeEnterButton();
         updateDisplays();
 
         // Bind displays to financial service
-        financialService.totalExpenseProperty().addListener((obs, old, newValue) ->
-                updateDisplays());
+        if (financialService != null) {
+            financialService.totalExpenseProperty().addListener((obs, old, newValue) ->
+                    updateDisplays());
+        }
+    }
+
+    private void initializeDatePicker() {
+        if (datePicker != null) {
+            datePicker.setValue(LocalDateTime.now().toLocalDate());
+        }
+    }
+
+    private void initializeCalculator() {
+        if (calculator != null && displayLabel != null) {
+            calculatorController.initialize(calculator, displayLabel);
+            displayLabel.textProperty().bind(calculatorController.displayValueProperty());
+        }
+    }
+
+    private void initializeTypeComboBox() {
+        if (typeComboBox != null) {
+            typeComboBox.setItems(FXCollections.observableArrayList("Expense", "Revenue"));
+            typeComboBox.setValue("Expense");
+            typeComboBox.setOnAction(e -> {
+                currentType = typeComboBox.getValue().equals("Revenue") ?
+                        FinancialRecord.TransactionType.REVENUE :
+                        FinancialRecord.TransactionType.EXPENSE;
+                updateCategoryButtons();
+            });
+        }
+    }
+
+    private void initializeTable() {
+        if (historyTable != null) {
+            tableViewController.initialize(historyTable);
+        }
+    }
+
+    private void initializeCategoryButtons() {
+        if (categorySection != null) {
+            setupCategoryButtons();
+        }
+    }
+
+    private void initializeEnterButton() {
+        if (enterButton != null) {
+            enterButton.setOnAction(e -> recordTransaction());
+        }
     }
 
     private void setupCategoryButtons() {
         categorySection.getChildren().clear();
         categoryButtons.clear();
 
-        // Get appropriate categories based on transaction type
         String[] categories = (currentType == FinancialRecord.TransactionType.EXPENSE) ?
                 getExpenseCategories() : getRevenueCategories();
 
@@ -103,19 +134,16 @@ public class ExpenseTrackerController {
     }
 
     private void updateCategoryButtons() {
-        currentType = typeComboBox.getValue();
-        currentCategory = null;
-        setupCategoryButtons();
+        if (categorySection != null) {
+            setupCategoryButtons();
+            clearCategorySelection();
+        }
     }
 
     private void selectCategory(String category, Button button) {
         categoryButtons.forEach(b -> b.getStyleClass().remove("selected"));
         button.getStyleClass().add("selected");
         currentCategory = category;
-    }
-
-    private void setupEnterButton() {
-        enterButton.setOnAction(e -> recordTransaction());
     }
 
     private void recordTransaction() {
@@ -151,14 +179,15 @@ public class ExpenseTrackerController {
     }
 
     private void updateDisplays() {
-        LocalDate startDate = datePicker.getValue().minusDays(30);
-        LocalDate endDate = datePicker.getValue(); // 日期選擇器的值
+        if (budgetLabel != null && spendingLabel != null) {
+            LocalDate startDate = datePicker.getValue().minusDays(30);
+            LocalDate endDate = datePicker.getValue();
 
-        FinancialSummary summary = financialService.generateSummary(startDate, endDate);
-        budgetLabel.setText(String.format("Budget: %s", CurrencyUtil.formatCurrency(budget.get())));
-        spendingLabel.setText(String.format("Spending: %s", CurrencyUtil.formatCurrency(summary.getTotalExpense())));
+            FinancialSummary summary = financialService.generateSummary(startDate, endDate);
+            budgetLabel.setText(String.format("Budget: %s", CurrencyUtil.formatCurrency(budget.get())));
+            spendingLabel.setText(String.format("Spending: %s", CurrencyUtil.formatCurrency(summary.getTotalExpense())));
+        }
     }
-
 
     private void clearCategorySelection() {
         categoryButtons.forEach(b -> b.getStyleClass().remove("selected"));
