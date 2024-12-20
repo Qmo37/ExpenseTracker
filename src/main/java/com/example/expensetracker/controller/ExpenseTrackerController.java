@@ -7,11 +7,14 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.beans.property.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ComboBox;
+import java.util.EnumSet;
 
 public class ExpenseTrackerController {
     // Controllers
@@ -88,13 +91,13 @@ public class ExpenseTrackerController {
     }
 
     private String[] getExpenseCategories() {
-        return ExpenseCategory.values().stream()
+        return EnumSet.allOf(ExpenseCategory.class).stream()
                 .map(ExpenseCategory::getDisplayName)
                 .toArray(String[]::new);
     }
 
     private String[] getRevenueCategories() {
-        return RevenueCategory.values().stream()
+        return EnumSet.allOf(RevenueCategory.class).stream()
                 .map(RevenueCategory::getDisplayName)
                 .toArray(String[]::new);
     }
@@ -139,7 +142,7 @@ public class ExpenseTrackerController {
             tableViewController.addRecord(record);
 
             updateDisplays();
-            calculatorController.clearCalculator();
+            calculatorController.clear();
             clearCategorySelection();
 
         } catch (NumberFormatException e) {
@@ -148,10 +151,14 @@ public class ExpenseTrackerController {
     }
 
     private void updateDisplays() {
-        FinancialSummary summary = financialService.generateSummary();
+        LocalDate startDate = datePicker.getValue().minusDays(30);
+        LocalDate endDate = datePicker.getValue(); // 日期選擇器的值
+
+        FinancialSummary summary = financialService.generateSummary(startDate, endDate);
         budgetLabel.setText(String.format("Budget: %s", CurrencyUtil.formatCurrency(budget.get())));
         spendingLabel.setText(String.format("Spending: %s", CurrencyUtil.formatCurrency(summary.getTotalExpense())));
     }
+
 
     private void clearCategorySelection() {
         categoryButtons.forEach(b -> b.getStyleClass().remove("selected"));

@@ -6,13 +6,19 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 public class FinancialService {
     private final ObservableList<FinancialRecord> records = FXCollections.observableArrayList();
     private double budget = 6000.0; // Default budget
+    private final DoubleProperty totalExpense = new SimpleDoubleProperty(0.0);
 
     public void addRecord(FinancialRecord record) {
         records.add(record);
+        if (record.getType() == FinancialRecord.TransactionType.EXPENSE) {
+            totalExpense.set(totalExpense.get() + record.getAmount());
+        }
     }
 
     public ObservableList<FinancialRecord> getRecords() {
@@ -64,5 +70,8 @@ public class FinancialService {
     public double getTotalSpending() {
         // Implementation of the getTotalSpending method
         return 0.0; // Replace with actual implementation
+    }
+    public DoubleProperty totalExpenseProperty() {
+        return totalExpense;
     }
 }

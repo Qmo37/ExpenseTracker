@@ -58,7 +58,7 @@ public class CalculatorController {
         }
     }
 
-    private void clear() {
+    public void clear() {
         inputBuffer.setLength(0);
         lastNumber = 0;
         lastOperator = "";
@@ -139,6 +139,17 @@ public class CalculatorController {
 
     private void updateDisplay() {
         displayLabel.setText(displayValue.get());
+
     }
+
+    public boolean hasValue() {
+        return !displayValue.get().isEmpty();
+    }
+
+    public String getCurrentValue() {
+        return displayValue.get();
+    }
+
+
     // ... (calculator methods as in previous implementation)
 }
