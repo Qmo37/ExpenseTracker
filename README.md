@@ -86,4 +86,6 @@ The UI is built using JavaFX, with FXML for layout definition and CSS for stylin
 - [x] Change overview panel from budget and spending to revenue, expense, and balance.
 - [x] Change category selection from text to icons.
 - [x] Optimize the CSS, especially for the table view.
+- [x] Optimize the code, delete unnecessary code, and refactor the code.
+- [x] Add comments to the code, especially for the methods.
 - [x] You tell me! Feel free to suggest any new features or improvements. (We might not be able to implement any of them.)
