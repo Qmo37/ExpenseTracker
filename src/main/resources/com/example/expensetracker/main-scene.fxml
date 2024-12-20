@@ -16,6 +16,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.ScrollPane?>
 
 <StackPane prefHeight="450" prefWidth="800" style="-fx-background-color: #2C2C2C; -fx-background-radius: 16;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.expensetracker.controller.ExpenseTrackerController">
     <HBox>
@@ -118,7 +119,13 @@
                             <Insets bottom="20.0" right="20.0" top="20.0" />
                         </padding>
                         <VBox alignment="TOP_CENTER" prefHeight="449.0" prefWidth="65" spacing="10" style="-fx-background-color: rgba(255,255,255,0.1); -fx-background-radius: 32;">
-                            <VBox fx:id="categorySection" alignment="CENTER" prefHeight="272.0" prefWidth="65.0" spacing="10" stylesheets="@styles.css" VBox.vgrow="ALWAYS" />
+                            <!-- Add ScrollPane for categorySection -->
+                            <ScrollPane fx:id="categoryScrollPane" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                                        style="-fx-background-color: #D0BCFF; -fx-background: #D0BCFF; -fx-border-color: #D0BCFF;">
+                                <content>
+                                    <VBox fx:id="categorySection" alignment="CENTER" prefWidth="65.0" spacing="10" style="-fx-background-color: #2D2A37" VBox.vgrow="ALWAYS" />
+                                </content>
+                            </ScrollPane>
                             <Button fx:id="enterButton" prefHeight="65.0" prefWidth="65.0" style="-fx-background-color: #D0BCFF; -fx-background-radius: 1000;" text="→" />
                         </VBox>
                     </VBox>
