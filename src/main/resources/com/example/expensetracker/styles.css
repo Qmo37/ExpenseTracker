@@ -93,3 +93,31 @@ scroll-pane {
 #categorySection {
     -fx-background-color: #D0BCFF; /* 設置 VBox 背景為按鈕顏色 */
 }
+
+.combo-box {
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+    -fx-background-color: #403D49;
+    -fx-text-fill: #D0BCFF;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: #D0BCFF;
+    -fx-padding: 5 10 5 10;
+}
+
+.combo-box .list-view {
+    -fx-background-color: #403D49;
+    -fx-border-color: #D0BCFF;
+}
+
+.combo-box .list-cell:hover {
+    -fx-background-color: #4A4458;
+    -fx-text-fill: white;
+}
+
+.combo-box:focused {
+    -fx-border-color: #D0BCFF;
+    -fx-border-radius: 16px;
+    -fx-text-fill: #D0BCFF;
+}
