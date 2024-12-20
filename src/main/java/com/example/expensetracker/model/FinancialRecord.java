@@ -12,7 +12,7 @@ public class FinancialRecord {
         REVENUE, EXPENSE
     }
 
-    public FinancialRecord(LocalDateTime dateTime, TransactionType type, String category, double amount) {
+    public FinancialRecord(String dateTime, TransactionType type, String category, double amount) {
         this.dateTime = dateTime;
         this.type = type;
         this.category = category;

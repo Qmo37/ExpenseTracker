@@ -127,8 +127,7 @@ public class ExpenseTrackerController {
             );
 
             FinancialRecord record = new FinancialRecord(
-                    dateTime.toLocalDate().toString(),
-                    dateTime.toLocalTime().toString(),
+                    DateTimeUtil.formatDateTime(dateTime).get(),
                     currentType,
                     currentCategory,
                     amount
@@ -148,8 +147,8 @@ public class ExpenseTrackerController {
 
     private void updateDisplays() {
         FinancialSummary summary = financialService.generateSummary();
-        budgetLabel.setText(String.format("Budget: $%.2f", budget.get()));
-        spendingLabel.setText(String.format("Spending: $%.2f", summary.getTotalExpense()));
+        budgetLabel.setText(String.format("Budget: %s", CurrencyUtil.formatCurrency(budget.get())));
+        spendingLabel.setText(String.format("Spending: %s", CurrencyUtil.formatCurrency(summary.getTotalExpense())));
     }
 
     private void clearCategorySelection() {

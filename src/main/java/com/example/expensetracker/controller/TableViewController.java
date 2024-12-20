@@ -21,8 +21,7 @@ public class TableViewController {
 
     private void setupColumns() {
         TableColumn<FinancialRecord, String> dateColumn = new TableColumn<>("Date");
-        dateColumn.setCellValueFactory(data ->
-                new SimpleStringProperty(data.getValue().getDate() + " " + data.getValue().getTime()));
+        dateColumn.setCellValueFactory(data -> DateTimeUtil.formatDateTime(data.getValue().getDateTime()));
 
         TableColumn<FinancialRecord, String> typeColumn = new TableColumn<>("Type");
         typeColumn.setCellValueFactory(data ->
@@ -34,7 +33,7 @@ public class TableViewController {
 
         TableColumn<FinancialRecord, String> amountColumn = new TableColumn<>("Amount");
         amountColumn.setCellValueFactory(data ->
-                new SimpleStringProperty(String.format("$%.2f", data.getValue().getAmount())));
+                new SimpleStringProperty(CurrencyUtil.formatCurrency(data.getValue().getAmount())));
 
         tableView.getColumns().setAll(dateColumn, typeColumn, categoryColumn, amountColumn);
     }
