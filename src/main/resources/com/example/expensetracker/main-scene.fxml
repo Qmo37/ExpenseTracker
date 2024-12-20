@@ -17,6 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.ComboBox?>
 <StackPane prefHeight="450" prefWidth="800" style="-fx-background-color: #2C2C2C; -fx-background-radius: 16;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.expensetracker.controller.ExpenseTrackerController">
     <HBox>
         <VBox alignment="CENTER" prefHeight="473.0" prefWidth="120.0">
@@ -56,7 +57,7 @@
                                 <children>
                                     <!-- Date Picker -->
                                     <DatePicker fx:id="datePicker" prefHeight="26.0" prefWidth="115.0" promptText="Select Date" showWeekNumbers="true" style="-fx-background-color: #403D49; -fx-background-radius: 32; -fx-padding: 0 0 0 5;" styleClass="date-picker" />
-                                    <ChoiceBox prefWidth="150.0" style="-fx-background-color: #403D49; -fx-background-radius: 32;" />
+                                    <ComboBox fx:id="typeComboBox" prefWidth="150.0" style="-fx-background-color: #403D49; -fx-background-radius: 32;" styleClass="type-choice"/>
                                 </children>
                             </VBox>
 

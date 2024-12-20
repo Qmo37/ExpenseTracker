@@ -72,3 +72,29 @@
     -fx-text-fill: white;
     -fx-font-weight: bold;
 }
+
+.combo-box {
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+    -fx-background-color: #403D49;
+    -fx-text-fill: white;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: black;
+    -fx-padding: 5 10 5 10;
+}
+
+.combo-box .list-view {
+    -fx-background-color: #403D49;
+}
+
+.combo-box .list-cell:hover {
+    -fx-background-color: #4A4458;
+    -fx-text-fill: white;
+}
+
+.combo-box:focused {
+    -fx-border-color: #D0BCFF;
+    -fx-text-fill: white;
+}
