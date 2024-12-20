@@ -77,11 +77,11 @@
     -fx-cursor: hand;
     -fx-font-size: 14px;
     -fx-background-color: #403D49;
-    -fx-text-fill: white;
+    -fx-text-fill: #D0BCFF;
 }
 
 .combo-box .list-cell {
-    -fx-text-fill: black;
+    -fx-text-fill: #D0BCFF;
     -fx-padding: 5 10 5 10;
 }
 
@@ -96,5 +96,5 @@
 
 .combo-box:focused {
     -fx-border-color: #D0BCFF;
-    -fx-text-fill: white;
+    -fx-text-fill: #D0BCFF;
 }
