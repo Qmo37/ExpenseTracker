@@ -69,7 +69,7 @@
                         </HBox>
 
                         <!-- Calculator Grid -->
-                        <GridPane fx:id="calculator" alignment="CENTER" hgap="8" prefWidth="220.0" stylesheets="@styles.css" vgap="8">
+                        <GridPane fx:id="calculator" alignment="CENTER" hgap="8" prefWidth="220.0" stylesheets="@../styles/styles.css" vgap="8">
                             <columnConstraints>
                                 <ColumnConstraints />
                                 <ColumnConstraints />
@@ -118,7 +118,7 @@
                             <Insets bottom="20.0" right="20.0" top="20.0" />
                         </padding>
                         <VBox alignment="TOP_CENTER" prefHeight="449.0" prefWidth="65" spacing="10" style="-fx-background-color: rgba(255,255,255,0.1); -fx-background-radius: 32;">
-                            <VBox fx:id="categorySection" alignment="CENTER" prefHeight="272.0" prefWidth="65.0" spacing="10" stylesheets="@styles.css" VBox.vgrow="ALWAYS" />
+                            <VBox fx:id="categorySection" alignment="CENTER" prefHeight="272.0" prefWidth="65.0" spacing="10" stylesheets="@../styles/styles.css" VBox.vgrow="ALWAYS" />
                             <Button fx:id="enterButton" prefHeight="65.0" prefWidth="65.0" style="-fx-background-color: #D0BCFF; -fx-background-radius: 1000;" text="→" />
                         </VBox>
                     </VBox>
@@ -127,7 +127,7 @@
 
             <!-- Right Section -->
             <right>
-                <VBox alignment="CENTER_LEFT" prefHeight="433.0" prefWidth="270.0" spacing="20" stylesheets="@styles.css">
+                <VBox alignment="CENTER_LEFT" prefHeight="433.0" prefWidth="270.0" spacing="20" stylesheets="@../styles/styles.css">
                     <!-- Budget Overview -->
                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" style="-fx-background-color: #B69DF7; -fx-background-radius: 32;">
                         <padding>
