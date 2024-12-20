@@ -98,7 +98,7 @@
                     <execution>
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.example.expensetracker/com.example.expensetracker.ExpenseTracker</mainClass>
+                            <mainClass>com.example.expensetracker/com.example.expensetracker.Main</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
