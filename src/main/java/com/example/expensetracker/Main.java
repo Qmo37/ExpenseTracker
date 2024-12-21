@@ -1,5 +1,4 @@
 package com.example.expensetracker;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -7,6 +6,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.scene.layout.GridPane;
 
+// The main class for the Expense Tracker application.
 public class Main extends Application {
     @Override
     public void start(Stage stage) {

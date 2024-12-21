@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import java.time.LocalDate;
 import java.util.Map;
 
+// A controller class for handling the statistics functionality in the expense tracker application.
 public class StatisticsController {
     @FXML private PieChart expensePieChart;
     @FXML private PieChart revenuePieChart;
@@ -22,12 +23,15 @@ public class StatisticsController {
     @FXML private Button refreshButton;
     @FXML private Button closeButton;
 
+    // FinancialService instance for accessing financial data and calculations.
     private final FinancialService financialService;
 
+    // Initializes the controller with a FinancialService instance.
     public StatisticsController(FinancialService financialService) {
         this.financialService = financialService;
     }
 
+    // Initializes the statistics view with default values and data.
     @FXML
     public void initialize() {
         setupDatePickers();
@@ -36,6 +40,7 @@ public class StatisticsController {
         updateCharts();
     }
 
+    // Sets up the date pickers with default values and event listeners.
     private void setupDatePickers() {
         // Default to last 30 days
         endDatePicker.setValue(LocalDate.now());
@@ -46,6 +51,7 @@ public class StatisticsController {
         endDatePicker.valueProperty().addListener((obs, oldVal, newVal) -> updateCharts());
     }
 
+    // Sets up the category filter with default values and event listeners.
     private void setupCategoryFilter() {
         // Combine expense and revenue categories
         categoryFilterBox.getItems().add("All Categories");
@@ -55,11 +61,11 @@ public class StatisticsController {
         for (RevenueCategory category : RevenueCategory.values()) {
             categoryFilterBox.getItems().add(category.getDisplayName());
         }
-
         categoryFilterBox.setValue("All Categories");
         categoryFilterBox.setOnAction(e -> updateCharts());
     }
 
+    // Sets up the table columns and data.
     private void setupTable() {
         // Date Column
         TableColumn<FinancialRecord, String> dateCol = new TableColumn<>("Date");
@@ -94,6 +100,7 @@ public class StatisticsController {
         filteredTable.getColumns().setAll(dateCol, typeCol, categoryCol, amountCol);
     }
 
+    // Updates the charts, labels, and table with the latest financial data.
     private void updateCharts() {
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
@@ -113,6 +120,7 @@ public class StatisticsController {
         updateFilteredTable(startDate, endDate, selectedCategory);
     }
 
+    // Updates the expense pie chart
     private void updateExpensePieChart(Map<String, Double> expenseTotals) {
         expensePieChart.setData(FXCollections.observableArrayList());
 
@@ -151,6 +159,7 @@ public class StatisticsController {
         });
     }
 
+    // Updates the revenue pie chart
     private void updateRevenuePieChart(Map<String, Double> revenueTotals) {
         revenuePieChart.setData(FXCollections.observableArrayList());
 
@@ -189,6 +198,7 @@ public class StatisticsController {
         });
     }
 
+    // Updates the table with filtered financial records.
     private void updateFilteredTable(LocalDate startDate, LocalDate endDate, String category) {
         filteredTable.setItems(financialService.getFilteredRecords(startDate, endDate)
                 .filtered(record ->
@@ -196,6 +206,7 @@ public class StatisticsController {
                 ));
     }
 
+    // Sets up the close button with an event listener.
     private void setupCloseButton() {
         closeButton.setOnAction(e -> closeWindow());
     }

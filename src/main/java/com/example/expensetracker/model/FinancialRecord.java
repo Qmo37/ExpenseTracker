@@ -2,12 +2,14 @@ package com.example.expensetracker.model;
 
 import java.time.LocalDateTime;
 
+// A class representing a financial record with a date and time, transaction type, category, and amount.
 public class FinancialRecord {
     private final LocalDateTime dateTime;
     private final TransactionType type;
     private final String category;
     private final double amount;
 
+    // An enumeration of transaction types for financial records.
     public enum TransactionType {
         REVENUE, EXPENSE
     }

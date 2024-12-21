@@ -1,14 +1,15 @@
 package com.example.expensetracker.model;
-
 import java.util.HashMap;
 import java.util.Map;
 
+// A class representing a financial summary with category totals and total revenue and expense amounts.
 public class FinancialSummary {
     private final Map<String, Double> revenueCategoryTotals;
     private final Map<String, Double> expenseCategoryTotals;
     private final double totalRevenue;
     private final double totalExpense;
 
+    // Initializes a financial summary with the specified category totals and total revenue and expense amounts.
     public FinancialSummary(
             Map<String, Double> revenueCategoryTotals,
             Map<String, Double> expenseCategoryTotals,
