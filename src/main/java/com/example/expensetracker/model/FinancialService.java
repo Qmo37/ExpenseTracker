@@ -20,6 +20,8 @@ public class FinancialService {
         records.add(record);
         if (record.getType() == FinancialRecord.TransactionType.EXPENSE) {
             totalExpense.set(totalExpense.get() + record.getAmount());
+        }else if (record.getType() == FinancialRecord.TransactionType.REVENUE) {
+            totalRevenue.set(totalRevenue.get() + record.getAmount());
         }
     }
 

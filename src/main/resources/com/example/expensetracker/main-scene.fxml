@@ -149,7 +149,7 @@
                             <Label fx:id="revenueLabel" text="Revenue" />
                             <Label fx:id="revenueAmount" text="\$0" />
                         </VBox>
-                        <VBox alignment="CENTER" spacing="5" styleClass="budget-box">
+                        <VBox alignment="CENTER" spacing="5" styleClass="box">
                             <Label fx:id="expenseLabel" text="Expense" />
                             <Label fx:id="expenseAmount" text="\$0" />
                         </VBox>
