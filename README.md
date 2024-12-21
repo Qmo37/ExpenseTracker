@@ -1,7 +1,7 @@
 ### Project Overview
 The Expense Tracker is a JavaFX-based desktop application designed to help users manage their personal finances by tracking both expenses and revenues. It features a modern, intuitive user interface with a calculator, category management, and detailed financial analytics.
 
-[Whole Window(2)](https://github.com/user-attachments/assets/f7dc7717-db64-4c6e-b1d2-c1e01008578f)
+![GUI Concept](https://github.com/user-attachments/assets/f7dc7717-db64-4c6e-b1d2-c1e01008578f)
 
 ### Project Objectives
 1. Provide an easy-to-use interface for recording financial transactions
