@@ -1,10 +1,19 @@
 package com.example.expensetracker.controller;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.util.Duration;
+import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.Node;
 
 public class CalculatorController {
     private final StringProperty displayValue = new SimpleStringProperty("0");
@@ -15,10 +24,84 @@ public class CalculatorController {
     private GridPane calculator;
     private Label displayLabel;
 
+    private static final String PRESSED_STYLE = "-fx-background-color: #4A4458;"; // Darker color when pressed
+    private static final String NORMAL_STYLE = "-fx-background-color: #403D49;"; // Your normal button color
+
     public void initialize(GridPane calculator, Label displayLabel) {
         this.calculator = calculator;
         this.displayLabel = displayLabel;
         setupCalculator();
+        setupKeyboardInput();
+    }
+
+    private void setupKeyboardInput() {
+        // Add key event handler to the calculator grid after it's created
+        Platform.runLater(() -> {
+            Scene scene = calculator.getScene();
+            scene.setOnKeyPressed(this::handleKeyboardInput);
+        });
+    }
+
+    private void handleKeyboardInput(KeyEvent event) {
+        String key = event.getText();
+        KeyCode code = event.getCode();
+
+        if (event.isConsumed()) return;
+
+        Button targetButton = null;
+
+        switch (code) {
+            case DIGIT0, NUMPAD0 -> targetButton = findCalculatorButton("0");
+            case DIGIT1, NUMPAD1 -> targetButton = findCalculatorButton("1");
+            case DIGIT2, NUMPAD2 -> targetButton = findCalculatorButton("2");
+            case DIGIT3, NUMPAD3 -> targetButton = findCalculatorButton("3");
+            case DIGIT4, NUMPAD4 -> targetButton = findCalculatorButton("4");
+            case DIGIT5, NUMPAD5 -> targetButton = findCalculatorButton("5");
+            case DIGIT6, NUMPAD6 -> targetButton = findCalculatorButton("6");
+            case DIGIT7, NUMPAD7 -> targetButton = findCalculatorButton("7");
+            case DIGIT8, NUMPAD8 -> targetButton = findCalculatorButton("8");
+            case DIGIT9, NUMPAD9 -> targetButton = findCalculatorButton("9");
+            case PERIOD, DECIMAL -> targetButton = findCalculatorButton(".");
+            case PLUS, ADD -> targetButton = findCalculatorButton("+");
+            case MINUS, SUBTRACT -> targetButton = findCalculatorButton("-");
+            case MULTIPLY -> targetButton = findCalculatorButton("×");
+            case SLASH, DIVIDE -> targetButton = findCalculatorButton("÷");
+            case EQUALS, ENTER -> targetButton = findCalculatorButton("=");
+            case BACK_SPACE, DELETE -> targetButton = findCalculatorButton("C");
+            case ESCAPE -> targetButton = findCalculatorButton("CE");
+            default -> {
+                if (key.equals("%")) {
+                    targetButton = findCalculatorButton("%");
+                }
+            }
+        }
+
+        if (targetButton != null) {
+            pressButton(targetButton);
+        }
+
+        event.consume();
+    }
+
+    private void pressButton(Button button) {
+        // Store original style
+        String originalStyle = button.getStyle();
+
+        // Apply pressed style
+        button.setStyle(originalStyle + ";" + PRESSED_STYLE);
+
+        // Handle the calculation
+        handleCalculatorButton(button.getText());
+
+        // Create a timeline for the visual feedback
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(button.styleProperty(),
+                        originalStyle + ";" + PRESSED_STYLE)),
+                new KeyFrame(Duration.millis(100), new KeyValue(button.styleProperty(),
+                        originalStyle))
+        );
+
+        timeline.play();
     }
 
     public StringProperty displayValueProperty() {
@@ -42,7 +125,23 @@ public class CalculatorController {
             for (String buttonText : row) {
                 Button button = findCalculatorButton(buttonText);
                 if (button != null) {
-                    button.setOnAction(e -> handleCalculatorButton(buttonText));
+                    // Set initial style
+                    button.setStyle(NORMAL_STYLE + "; -fx-background-radius: 1000;");
+
+                    // Setup mouse press handlers
+                    button.setOnMousePressed(e -> {
+                        button.setStyle(button.getStyle() + ";" + PRESSED_STYLE);
+                    });
+
+                    button.setOnMouseReleased(e -> {
+                        button.setStyle(NORMAL_STYLE + "; -fx-background-radius: 1000;");
+                        handleCalculatorButton(buttonText);
+                    });
+
+                    // Handle mouse exit while pressed
+                    button.setOnMouseExited(e -> {
+                        button.setStyle(NORMAL_STYLE + "; -fx-background-radius: 1000;");
+                    });
                 }
             }
         }
@@ -51,7 +150,7 @@ public class CalculatorController {
     private Button findCalculatorButton(String text) {
         if (calculator == null) return null;
 
-        for (javafx.scene.Node node : calculator.getChildren()) {
+        for (Node node : calculator.getChildren()) {
             if (node instanceof Button button && button.getText().equals(text)) {
                 return button;
             }

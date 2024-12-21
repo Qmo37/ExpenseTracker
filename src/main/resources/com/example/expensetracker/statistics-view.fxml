@@ -20,17 +20,17 @@
     <HBox alignment="CENTER_LEFT" spacing="20">
         <VBox spacing="5">
             <Label style="-fx-text-fill: white;" text="Start Date" />
-            <DatePicker fx:id="startDatePicker" />
+            <DatePicker fx:id="startDatePicker" prefHeight="26.0" prefWidth="125.0" />
         </VBox>
         <VBox spacing="5">
             <Label style="-fx-text-fill: white;" text="End Date" />
-            <DatePicker fx:id="endDatePicker" />
+            <DatePicker fx:id="endDatePicker" prefHeight="26.0" prefWidth="138.0" />
         </VBox>
-        <VBox spacing="5">
+        <VBox prefHeight="50.0" prefWidth="124.0" spacing="5">
             <Label style="-fx-text-fill: white;" text="Category" />
-            <ComboBox fx:id="categoryFilterBox" />
+            <ComboBox fx:id="categoryFilterBox" prefHeight="27.0" prefWidth="148.0" />
         </VBox>
-      <HBox alignment="BOTTOM_RIGHT" prefHeight="50.0" prefWidth="254.0" spacing="20.0">
+      <HBox alignment="BOTTOM_RIGHT" prefHeight="50.0" prefWidth="282.0" spacing="20.0">
          <children>
             <Button fx:id="refreshButton" alignment="CENTER" minHeight="0.0" mnemonicParsing="false" onAction="#refresh" prefHeight="31.0" prefWidth="84.0" style="-fx-background-color: #975DFA; -fx-background-radius: 1000;" text="REFRESH">
                <HBox.margin>
@@ -57,7 +57,10 @@
             <padding>
                 <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
-            <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="Expense Distribution" />
+            <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="Expense Distribution">
+            <VBox.margin>
+               <Insets left="5.0" top="5.0" />
+            </VBox.margin></Label>
             <PieChart fx:id="expensePieChart" animated="true" labelLineLength="20" labelsVisible="true" legendVisible="true" />
         </VBox>
         <!-- ... revenue chart ... -->
@@ -65,7 +68,10 @@
             <padding>
                 <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
-            <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="Revenue Distribution" />
+            <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="Revenue Distribution">
+            <VBox.margin>
+               <Insets left="5.0" top="5.0" />
+            </VBox.margin></Label>
             <PieChart fx:id="revenuePieChart" animated="true" labelLineLength="20" labelsVisible="true" legendVisible="true" />
         </VBox>
     </HBox>

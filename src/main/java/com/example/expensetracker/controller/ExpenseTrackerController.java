@@ -47,6 +47,8 @@ public class ExpenseTrackerController extends Main {
     @FXML private Label expenseLabel;
     @FXML private Label revenueAmount;
     @FXML private Label expenseAmount;
+    @FXML private Label balanceLabel;
+    @FXML private Label balanceAmount;
     @FXML private Button enterButton;
     @FXML private VBox categorySection;
     @FXML private ComboBox<String> typeComboBox; // Changed to String type
@@ -123,9 +125,10 @@ public class ExpenseTrackerController extends Main {
     }
 
     private void initializeAmountLabels() {
-        if (revenueAmount != null && expenseAmount != null) {
-            revenueAmount.textProperty().bind(financialService.totalRevenueProperty().asString());
-            expenseAmount.textProperty().bind(financialService.totalExpenseProperty().asString());
+        if (revenueAmount != null && expenseAmount != null && balanceAmount != null) {
+            revenueAmount.textProperty().bind(financialService.totalRevenueProperty().asString("$%.2f"));
+            expenseAmount.textProperty().bind(financialService.totalExpenseProperty().asString("$%.2f"));
+            balanceAmount.textProperty().bind(financialService.totalBalanceProperty().asString("$%.2f"));
         }
     }
 
@@ -167,18 +170,6 @@ public class ExpenseTrackerController extends Main {
 
         categoryButtons.add(buttonContainer);
         categorySection.getChildren().add(buttonContainer);
-    }
-
-    private String[] getExpenseCategories() {
-        return EnumSet.allOf(ExpenseCategory.class).stream()
-                .map(ExpenseCategory::getDisplayName)
-                .toArray(String[]::new);
-    }
-
-    private String[] getRevenueCategories() {
-        return EnumSet.allOf(RevenueCategory.class).stream()
-                .map(RevenueCategory::getDisplayName)
-                .toArray(String[]::new);
     }
 
     private void updateCategoryButtons() {
@@ -229,13 +220,13 @@ public class ExpenseTrackerController extends Main {
     }
 
     private void updateDisplays() {
-        if (revenueLabel != null && expenseLabel != null) {
+        if (revenueAmount != null && expenseAmount != null) {
             LocalDate startDate = datePicker.getValue().minusDays(30);
             LocalDate endDate = datePicker.getValue();
 
-            FinancialSummary summary = financialService.generateSummary(startDate, endDate);
-            revenueLabel.setText(String.format("Revenue: %s", CurrencyUtil.formatCurrency(summary.getTotalRevenue())));
-            expenseLabel.setText(String.format("Expense: %s", CurrencyUtil.formatCurrency(summary.getTotalExpense())));
+//            FinancialSummary summary = financialService.generateSummary(startDate, endDate);
+//            revenueAmount.setText(String.format("%s", CurrencyUtil.formatCurrency(summary.getTotalRevenue())));
+//            expenseAmount.setText(String.format("%s", CurrencyUtil.formatCurrency(summary.getTotalExpense())));
         }
     }
 

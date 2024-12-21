@@ -24,7 +24,7 @@
             <children>
                 <Pane prefHeight="388.0" prefWidth="60.0">
                     <children>
-                        <Button layoutX="3.0" layoutY="146.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#initialize" onMouseClicked="#initialize" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 1000; -fx-background-color: #D0BCFF;" text="1" textAlignment="CENTER" textFill="WHITE">
+                        <Button fx:id="mainPageButton" layoutX="3.0" layoutY="146.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#initialize" onMouseClicked="#initialize" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 1000; -fx-background-color: #D0BCFF;" text="1" textAlignment="CENTER" textFill="WHITE">
                             <font>
                                 <Font size="16.0" />
                             </font>
@@ -56,7 +56,7 @@
                             <VBox alignment="BOTTOM_LEFT" spacing="10.0">
                                 <children>
                                     <!-- Date Picker -->
-                                    <DatePicker fx:id="datePicker" prefHeight="26.0" prefWidth="115.0" promptText="Select Date" showWeekNumbers="true" style="-fx-background-color: #403D49; -fx-background-radius: 32; -fx-padding: 0 0 0 5;" styleClass="date-picker" />
+                                    <DatePicker fx:id="datePicker" prefHeight="26.0" prefWidth="148.0" promptText="Select Date" showWeekNumbers="true" style="-fx-background-color: #403D49; -fx-background-radius: 32; -fx-padding: 0 0 0 5;" styleClass="date-picker" />
                                     <ComboBox fx:id="typeComboBox" prefWidth="150.0" style="-fx-background-color: #403D49; -fx-background-radius: 32;" styleClass="type-choice" />
                                 </children>
                             </VBox>
@@ -141,23 +141,48 @@
             <right>
                 <VBox alignment="CENTER_LEFT" prefHeight="433.0" prefWidth="270.0" spacing="20" stylesheets="@styles.css">
                     <!-- Budget Overview -->
-                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" style="-fx-background-color: #B69DF7; -fx-background-radius: 32;">
+                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" style="-fx-background-color: #B69DF7; -fx-background-radius: 32;">
                         <padding>
-                            <Insets bottom="10.0" left="50.0" right="50.0" top="10.0" />
+                            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                         </padding>
-                        <VBox alignment="CENTER_LEFT" spacing="5" styleClass="budget-box">
-                            <Label fx:id="revenueLabel" text="Revenue" />
-                            <Label fx:id="revenueAmount" text="\$0" />
+                        <VBox alignment="CENTER" spacing="5" styleClass="budget-box">
+                            <Label fx:id="revenueLabel" text="Revenue" textAlignment="CENTER" textFill="WHITE">
+                        <font>
+                           <Font name="Comfortaa Medium" size="13.0" />
+                        </font></Label>
+                            <Label fx:id="revenueAmount" text="\$0" textAlignment="CENTER" textFill="WHITE">
+                        <font>
+                           <Font name="Comfortaa Medium" size="16.0" />
+                        </font></Label>
                         </VBox>
                         <VBox alignment="CENTER" spacing="5" styleClass="box">
-                            <Label fx:id="expenseLabel" text="Expense" />
-                            <Label fx:id="expenseAmount" text="\$0" />
+                            <Label fx:id="expenseLabel" text="Expense" textAlignment="CENTER" textFill="WHITE">
+                        <font>
+                           <Font name="Comfortaa Medium" size="13.0" />
+                        </font></Label>
+                            <Label fx:id="expenseAmount" text="\$0" textFill="WHITE">
+                        <font>
+                           <Font name="Comfortaa Medium" size="16.0" />
+                        </font></Label>
                         </VBox>
+                  <VBox alignment="CENTER" layoutX="80.0" layoutY="20.0" spacing="5" styleClass="budget-box">
+                     <children>
+                        <Label fx:id="balanceLabel" text="Balance" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Comfortaa Medium" size="13.0" />
+                           </font></Label>
+                        <Label fx:id="balanceAmount" text="\$0" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Comfortaa Medium" size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
                     </HBox>
 
                     <!-- History Section -->
                     <VBox fx:id="historyBox" alignment="TOP_CENTER" prefHeight="343.0" prefWidth="239.0" spacing="5" style="-fx-background-color: #332D41; -fx-background-radius: 32;" VBox.vgrow="ALWAYS">
-                        <TableView fx:id="historyTable" prefHeight="324.0" prefWidth="270.0" style="-fx-background-color: #332D41; -fx-background-radius: 32;">
+                        <TableView fx:id="historyTable" prefHeight="322.0" prefWidth="270.0" style="-fx-background-color: #332D41; -fx-background-radius: 32;">
                             <columns>
                                 <TableColumn fx:id="dateColumn" prefWidth="75.0" style="-fx-background-color: #332D41;" text="Date" />
                                 <TableColumn fx:id="amountColumn" prefWidth="75.0" style="-fx-background-color: #332D41;" text="Amount" />
@@ -167,10 +192,19 @@
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                             </columnResizePolicy>
                             <padding>
-                                <Insets left="10.0" right="10.0" top="10.0" />
+                                <Insets left="10.0" right="10.0" top="16.0" />
                             </padding>
                         </TableView>
-                        <Label alignment="CENTER" styleClass="history-title" text="History" textFill="#cfbdff" />
+                        <Label alignment="CENTER" styleClass="history-title" text="History" textFill="#cfbdff">
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Comfortaa Medium" size="15.0" />
+                     </font></Label>
+                  <VBox.margin>
+                     <Insets />
+                  </VBox.margin>
                     </VBox>
                 </VBox>
             </right>
