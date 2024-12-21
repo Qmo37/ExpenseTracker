@@ -33,7 +33,6 @@ public class ExpenseTrackerController extends Main {
     private final FinancialService financialService;
 
     // Properties
-    private final DoubleProperty budget = new SimpleDoubleProperty(6000.0);
     public ScrollPane categoryScrollPane;
     private String currentCategory = null;
     private FinancialRecord.TransactionType currentType = FinancialRecord.TransactionType.EXPENSE;

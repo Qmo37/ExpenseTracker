@@ -140,7 +140,6 @@
             <!-- Right Section -->
             <right>
                 <VBox alignment="CENTER_LEFT" prefHeight="433.0" prefWidth="270.0" spacing="20" stylesheets="@styles.css">
-                    <!-- Budget Overview -->
                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" style="-fx-background-color: #B69DF7; -fx-background-radius: 32;">
                         <padding>
                             <Insets bottom="10.0" left="50.0" right="50.0" top="10.0" />

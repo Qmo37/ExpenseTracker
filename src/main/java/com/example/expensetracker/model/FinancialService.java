@@ -29,14 +29,6 @@ public class FinancialService {
         return records;
     }
 
-    public void setBudget(double budget) {
-        this.budget = budget;
-    }
-
-    public double getBudget() {
-        return budget;
-    }
-
     public FinancialSummary generateSummary(LocalDate startDate, LocalDate endDate) {
         Map<String, Double> revenueTotals = new HashMap<>();
         Map<String, Double> expenseTotals = new HashMap<>();
@@ -67,14 +59,6 @@ public class FinancialService {
                 })
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));
     }
-//    public void addExpense(LocalDate date, String category, double amount) {
-//        // Implementation of the addExpense method
-//    }
-//
-//    public double getTotalSpending() {
-//        // Implementation of the getTotalSpending method
-//        return 0.0; // Replace with actual implementation
-//    }
 
     public DoubleProperty totalExpenseProperty() {
         return totalExpense;
