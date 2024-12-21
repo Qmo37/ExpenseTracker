@@ -251,3 +251,29 @@
 .table-view .scroll-bar:horizontal .thumb {
     -fx-background-color: #D0BCFF;
 }
+
+.category-button {
+    -fx-background-color: #403D49;
+    -fx-background-radius: 16;
+    -fx-padding: 8;
+    -fx-min-width: 50;
+    -fx-min-height: 50;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 0);
+}
+
+.category-button:hover {
+    -fx-background-color: #4A4458;
+}
+
+.category-button.selected {
+    -fx-background-color: #D0BCFF;
+}
+
+.category-button.selected .label {
+    -fx-text-fill: #1E1E1E;
+}
+
+.category-button.selected .ikonli-font-icon {
+    -fx-icon-color: #1E1E1E;
+}

@@ -5,7 +5,9 @@ import com.example.expensetracker.model.*;
 import com.example.expensetracker.util.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -15,6 +17,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -47,7 +52,7 @@ public class ExpenseTrackerController extends Main {
     @FXML private ComboBox<String> typeComboBox; // Changed to String type
     @FXML private Button statisticsButton;
 
-    private final List<Button> categoryButtons = new ArrayList<>();
+    private final List<VBox> categoryButtons = new ArrayList<VBox>();
 
     public ExpenseTrackerController() {
         this.calculatorController = new CalculatorController();
@@ -128,16 +133,40 @@ public class ExpenseTrackerController extends Main {
         categorySection.getChildren().clear();
         categoryButtons.clear();
 
-        String[] categories = (currentType == FinancialRecord.TransactionType.EXPENSE) ?
-                getExpenseCategories() : getRevenueCategories();
-
-        for (String category : categories) {
-            Button button = new Button(category);
-            button.getStyleClass().add("category-button");
-            button.setOnAction(e -> selectCategory(category, button));
-            categoryButtons.add(button);
-            categorySection.getChildren().add(button);
+        // Get appropriate categories based on transaction type
+        if (currentType == FinancialRecord.TransactionType.EXPENSE) {
+            for (ExpenseCategory category : ExpenseCategory.values()) {
+                createCategoryButton(category.getDisplayName(), category.getIconName());
+            }
+        } else {
+            for (RevenueCategory category : RevenueCategory.values()) {
+                createCategoryButton(category.getDisplayName(), category.getIconName());
+            }
         }
+    }
+
+    private void createCategoryButton(String category, String iconName) {
+        VBox buttonContainer = new VBox(5);
+        buttonContainer.setAlignment(Pos.CENTER);
+
+        // Create icon
+        FontIcon icon = new FontIcon(iconName);
+        icon.setIconSize(24);
+        icon.setIconColor(Color.WHITE);
+
+        // Create label
+        Label label = new Label(category);
+        label.setStyle("-fx-text-fill: white; -fx-font-size: 10px;");
+
+        // Add to container
+        buttonContainer.getChildren().addAll(icon, label);
+        buttonContainer.getStyleClass().add("category-button");
+
+        // Add click handler
+        buttonContainer.setOnMouseClicked(e -> selectCategory(category, buttonContainer));
+
+        categoryButtons.add(buttonContainer);
+        categorySection.getChildren().add(buttonContainer);
     }
 
     private String[] getExpenseCategories() {
@@ -159,9 +188,11 @@ public class ExpenseTrackerController extends Main {
         }
     }
 
-    private void selectCategory(String category, Button button) {
+    private void selectCategory(String category, VBox buttonContainer) {
+        // Clear previous selection
         categoryButtons.forEach(b -> b.getStyleClass().remove("selected"));
-        button.getStyleClass().add("selected");
+        // Set new selection
+        buttonContainer.getStyleClass().add("selected");
         currentCategory = category;
     }
 
