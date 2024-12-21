@@ -62,7 +62,7 @@
                             </VBox>
 
                             <!-- Calculator Display -->
-                            <Label fx:id="displayLabel" alignment="TOP_LEFT" minHeight="70.0" style="-fx-background-color: #403D49;" styleClass="calculator-display" text="0" textAlignment="CENTER">
+                            <Label fx:id="displayLabel" alignment="TOP_LEFT" minHeight="70.0" style="-fx-background-color: #403D49;" styleClass="calculator-display" text="0" textAlignment="CENTER" textOverrun="CLIP">
                                 <font>
                                     <Font size="12.0" />
                                 </font>
@@ -140,7 +140,7 @@
             <!-- Right Section -->
             <right>
                 <VBox alignment="CENTER_LEFT" prefHeight="433.0" prefWidth="270.0" spacing="20" stylesheets="@styles.css">
-                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" style="-fx-background-color: #B69DF7; -fx-background-radius: 32;">
+                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="16.0" style="-fx-background-color: #B69DF7; -fx-background-radius: 32;">
                         <padding>
                             <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                         </padding>
