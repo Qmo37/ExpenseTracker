@@ -235,7 +235,7 @@ public class ExpenseTrackerController extends Main {
 
             FinancialSummary summary = financialService.generateSummary(startDate, endDate);
             revenueLabel.setText(String.format("Revenue: %s", CurrencyUtil.formatCurrency(summary.getTotalRevenue())));
-            expenseLabel.setText(String.format("Spending: %s", CurrencyUtil.formatCurrency(summary.getTotalExpense())));
+            expenseLabel.setText(String.format("Expense: %s", CurrencyUtil.formatCurrency(summary.getTotalExpense())));
         }
     }
 
