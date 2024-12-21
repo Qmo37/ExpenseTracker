@@ -7,7 +7,7 @@
     -fx-text-fill: white;
     -fx-font-size: 32px;
     -fx-alignment: center-right;
-    -fx-padding: 20px;
+    -fx-padding: 10px;
 }
 
 .calculator-button {
