@@ -175,3 +175,240 @@ This project demonstrates modern Java application development practices, combini
 - [x] Optimize the code, delete unnecessary code, and refactor the code.
 - [x] Add comments to the code, especially for the methods.
 - [ ] You tell me! Feel free to suggest any new features or improvements. (We might not be able to implement any of them.)
+
+### Key features Claude said we can introduce in the presentation
+Here are 8 key features of the Expense Tracker project explained in detail:
+
+1. **Smart Calculator Integration**
+```java
+public class CalculatorController {
+    private final StringProperty displayValue = new SimpleStringProperty("0");
+    private final StringBuilder inputBuffer = new StringBuilder();
+    private boolean isNewCalculation = true;
+    private double lastNumber = 0;
+    private String lastOperator = "";
+
+    private void handleCalculatorButton(String value) {
+        switch (value) {
+            case "C", "CE" -> clearCalculator();
+            case "+" -> handleOperator("+");
+            case "-" -> handleOperator("-");
+            case "×" -> handleOperator("*");
+            case "÷" -> handleOperator("/");
+            case "=" -> calculateResult();
+            case "±" -> negateCurrentValue();
+            case "." -> addDecimalPoint();
+            default -> handleNumber(value);
+        }
+    }
+}
+```
+- Full arithmetic operations support
+- Keyboard input integration
+- Real-time display updates
+- Error handling for invalid inputs
+- Visual feedback for button presses
+- Memory of previous calculations
+- Decimal point handling
+- Negative number support
+
+2. **Dynamic Category Management**
+```java
+public enum ExpenseCategory {
+    FOOD("Food", "fas-utensils"),
+    TRANSPORT("Transport", "fas-car"),
+    SHOPPING("Shopping", "fas-shopping-bag"),
+    COFFEE("Coffee", "fas-coffee"),
+    GIFT("Gift", "fas-gift"),
+    // ...
+
+    private final String displayName;
+    private final String iconName;
+}
+
+private void setupCategoryButtons() {
+    categorySection.getChildren().clear();
+    categoryButtons.clear();
+
+    if (currentType == FinancialRecord.TransactionType.EXPENSE) {
+        for (ExpenseCategory category : ExpenseCategory.values()) {
+            createCategoryButton(category.getDisplayName(), category.getIconName());
+        }
+    } else {
+        for (RevenueCategory category : RevenueCategory.values()) {
+            createCategoryButton(category.getDisplayName(), category.getIconName());
+        }
+    }
+}
+```
+- Visual category representation
+- Icon integration
+- Dynamic category switching
+- Type-based categorization (Expense/Revenue)
+- Single selection mechanism
+- Scrollable category list
+- Visual feedback for selection
+- Category-based filtering
+
+3. **Financial Statistics and Visualization**
+```java
+public class StatisticsController {
+    @FXML private PieChart expensePieChart;
+    @FXML private PieChart revenuePieChart;
+    
+    private void updateCharts() {
+        FinancialSummary summary = financialService.generateSummary(startDate, endDate);
+        updateExpensePieChart(summary.getExpenseCategoryTotals());
+        updateRevenuePieChart(summary.getRevenueCategoryTotals());
+        
+        totalExpenseLabel.setText(String.format("Total Expenses: $%.2f", 
+            summary.getTotalExpense()));
+        totalRevenueLabel.setText(String.format("Total Revenue: $%.2f", 
+            summary.getTotalRevenue()));
+    }
+}
+```
+- Interactive pie charts
+- Date range filtering
+- Category distribution analysis
+- Real-time updates
+- Animated transitions
+- Detailed tooltips
+- Legend integration
+- Color-coded categories
+
+4. **Transaction Management System**
+```java
+public class FinancialService {
+    private final ObservableList<FinancialRecord> records = FXCollections.observableArrayList();
+    private final DoubleProperty totalExpense = new SimpleDoubleProperty(0.0);
+    private final DoubleProperty totalRevenue = new SimpleDoubleProperty(0.0);
+
+    public void addRecord(FinancialRecord record) {
+        records.add(record);
+        if (record.getType() == FinancialRecord.TransactionType.EXPENSE) {
+            totalExpense.set(totalExpense.get() + record.getAmount());
+        } else {
+            totalRevenue.set(totalRevenue.get() + record.getAmount());
+        }
+    }
+}
+```
+- Real-time transaction recording
+- Automatic balance updates
+- Transaction categorization
+- Date-time tracking
+- Type classification
+- Amount validation
+- Historical record keeping
+- Observable collections for UI binding
+
+5. **Reactive UI Updates**
+```java
+public class ExpenseTrackerController {
+    @FXML private Label revenueAmount;
+    @FXML private Label expenseAmount;
+    @FXML private Label balanceAmount;
+
+    private void initializeAmountLabels() {
+        revenueAmount.textProperty().bind(
+            financialService.totalRevenueProperty().asString("$%.2f"));
+        expenseAmount.textProperty().bind(
+            financialService.totalExpenseProperty().asString("$%.2f"));
+        balanceAmount.textProperty().bind(
+            financialService.totalBalanceProperty().asString("$%.2f"));
+    }
+}
+```
+- Property binding
+- Automatic UI updates
+- Format transformation
+- Real-time calculations
+- Currency formatting
+- Color-coded displays
+- Balance monitoring
+- Zero-lag updates
+
+6. **Advanced Filtering and Search**
+```java
+public ObservableList<FinancialRecord> getFilteredRecords(
+    LocalDate startDate, LocalDate endDate, String category) {
+    return records.stream()
+        .filter(record -> {
+            LocalDate recordDate = record.getDateTime().toLocalDate();
+            boolean dateInRange = !recordDate.isBefore(startDate) 
+                && !recordDate.isAfter(endDate);
+            boolean categoryMatch = category.equals("All Categories") 
+                || record.getCategory().equals(category);
+            return dateInRange && categoryMatch;
+        })
+        .collect(Collectors.toCollection(FXCollections::observableArrayList));
+}
+```
+- Date range filtering
+- Category filtering
+- Dynamic results updating
+- Multiple filter combinations
+- Stream-based processing
+- Observable results
+- Efficient filtering
+- Real-time updates
+
+7. **Modern UI Design**
+```css
+.calculator-button {
+    -fx-background-color: rgba(255,255,255,0.1);
+    -fx-text-fill: white;
+    -fx-min-width: 65px;
+    -fx-min-height: 65px;
+    -fx-font-size: 18px;
+    -fx-background-radius: 1000px;
+    -fx-transition: -fx-background-color 0.1s;
+}
+
+.category-button {
+    -fx-background-color: #403D49;
+    -fx-background-radius: 16;
+    -fx-padding: 8;
+    -fx-min-width: 50;
+    -fx-min-height: 50;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 0);
+}
+```
+- Dark theme implementation
+- Responsive layout
+- Custom animations
+- Shadow effects
+- Rounded corners
+- Hover effects
+- Color transitions
+- Icon integration
+
+8. **Data Summary and Analysis**
+```java
+public class FinancialSummary {
+    private final Map<String, Double> revenueCategoryTotals;
+    private final Map<String, Double> expenseCategoryTotals;
+    private final double totalRevenue;
+    private final double totalExpense;
+
+    public double getRemainingAmount() { 
+        return totalRevenue - totalExpense; 
+    }
+
+    public Map<String, Double> getExpenseCategoryTotals() {
+        return new HashMap<>(expenseCategoryTotals);
+    }
+}
+```
+- Category-wise totals
+- Period-based summaries
+- Balance calculation
+- Trend analysis
+- Percentage distributions
+- Category comparisons
+- Historical tracking
+- Data aggregation
+
+Each of these features contributes to making the Expense Tracker a comprehensive financial management tool. The features are designed to work together seamlessly, providing users with both detailed tracking capabilities and high-level financial insights.
