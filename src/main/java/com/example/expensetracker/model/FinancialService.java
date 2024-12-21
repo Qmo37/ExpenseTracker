@@ -1,6 +1,7 @@
 package com.example.expensetracker.model;
 
 import javafx.beans.binding.BooleanExpression;
+import javafx.beans.binding.DoubleBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.time.LocalDate;
@@ -74,5 +75,5 @@ public class FinancialService {
         return totalRevenue;
     }
 
-    public DoubleProperty totalBalanceProperty() { return totalRevenue.subtract(totalExpense); }
+    public DoubleBinding totalBalanceProperty() { return totalRevenue.subtract(totalExpense); }
 }
