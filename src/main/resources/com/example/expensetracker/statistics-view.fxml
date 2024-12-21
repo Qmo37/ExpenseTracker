@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="10" style="-fx-background-color: #2C2C2C;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="650" prefWidth="780" spacing="10" style="-fx-background-color: #2C2C2C;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <padding>
         <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
@@ -30,14 +30,14 @@
             <Label style="-fx-text-fill: white;" text="Category" />
             <ComboBox fx:id="categoryFilterBox" />
         </VBox>
-      <HBox alignment="BOTTOM_RIGHT" prefHeight="50.0" prefWidth="573.0" spacing="20.0">
+      <HBox alignment="BOTTOM_RIGHT" prefHeight="50.0" prefWidth="254.0" spacing="20.0">
          <children>
-            <Button fx:id="refreshButton" onAction="#refresh" alignment="CENTER" minHeight="0.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="84.0" style="-fx-background-color: #975DFA; -fx-background-radius: 1000;" text="REFRESH">
+            <Button fx:id="refreshButton" alignment="CENTER" minHeight="0.0" mnemonicParsing="false" onAction="#refresh" prefHeight="31.0" prefWidth="84.0" style="-fx-background-color: #975DFA; -fx-background-radius: 1000;" text="REFRESH">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </Button>
-            <Button fx:id="closeButton" onAction="#closeWindow" alignment="CENTER" layoutX="537.0" layoutY="20.0" minHeight="0.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="68.0" style="-fx-background-color: #D0BCFF; -fx-background-radius: 1000;" text="CLOSE" />
+            <Button fx:id="closeButton" alignment="CENTER" layoutX="537.0" layoutY="20.0" minHeight="0.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="31.0" prefWidth="68.0" style="-fx-background-color: #D0BCFF; -fx-background-radius: 1000;" text="CLOSE" />
          </children>
          <HBox.margin>
             <Insets right="10.0" />
