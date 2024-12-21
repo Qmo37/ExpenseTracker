@@ -24,7 +24,7 @@
             <children>
                 <Pane prefHeight="388.0" prefWidth="60.0">
                     <children>
-                        <Button fx:id="mainPageButton" layoutX="3.0" layoutY="146.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#initialize" onMouseClicked="#initialize" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 1000; -fx-background-color: #D0BCFF;" text="1" textAlignment="CENTER" textFill="WHITE">
+                        <Button layoutX="3.0" layoutY="146.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#initialize" onMouseClicked="#initialize" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 1000; -fx-background-color: #D0BCFF;" text="1" textAlignment="CENTER" textFill="WHITE">
                             <font>
                                 <Font size="16.0" />
                             </font>
@@ -56,7 +56,7 @@
                             <VBox alignment="BOTTOM_LEFT" spacing="10.0">
                                 <children>
                                     <!-- Date Picker -->
-                                    <DatePicker fx:id="datePicker" prefHeight="26.0" prefWidth="148.0" promptText="Select Date" showWeekNumbers="true" style="-fx-background-color: #403D49; -fx-background-radius: 32; -fx-padding: 0 0 0 5;" styleClass="date-picker" />
+                                    <DatePicker fx:id="datePicker" prefHeight="26.0" prefWidth="115.0" promptText="Select Date" showWeekNumbers="true" style="-fx-background-color: #403D49; -fx-background-radius: 32; -fx-padding: 0 0 0 5;" styleClass="date-picker" />
                                     <ComboBox fx:id="typeComboBox" prefWidth="150.0" style="-fx-background-color: #403D49; -fx-background-radius: 32;" styleClass="type-choice" />
                                 </children>
                             </VBox>
@@ -140,8 +140,7 @@
             <!-- Right Section -->
             <right>
                 <VBox alignment="CENTER_LEFT" prefHeight="433.0" prefWidth="270.0" spacing="20" stylesheets="@styles.css">
-                    <!-- Budget Overview -->
-                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" style="-fx-background-color: #B69DF7; -fx-background-radius: 32;">
+                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" style="-fx-background-color: #B69DF7; -fx-background-radius: 32;">
                         <padding>
                             <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                         </padding>

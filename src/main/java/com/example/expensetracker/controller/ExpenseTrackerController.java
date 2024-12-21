@@ -33,7 +33,6 @@ public class ExpenseTrackerController extends Main {
     private final FinancialService financialService;
 
     // Properties
-    private final DoubleProperty budget = new SimpleDoubleProperty(6000.0);
     public ScrollPane categoryScrollPane;
     private String currentCategory = null;
     private FinancialRecord.TransactionType currentType = FinancialRecord.TransactionType.EXPENSE;
@@ -56,12 +55,14 @@ public class ExpenseTrackerController extends Main {
 
     private final List<VBox> categoryButtons = new ArrayList<VBox>();
 
+    // Constructor to initialize controllers
     public ExpenseTrackerController() {
         this.calculatorController = new CalculatorController();
         this.tableViewController = new TableViewController();
         this.financialService = new FinancialService();
     }
 
+    // Main initialization method called after FXML loading
     @FXML
     public void initialize() {
         initializeDatePicker();
@@ -73,26 +74,26 @@ public class ExpenseTrackerController extends Main {
         updateDisplays();
         initializeAmountLabels();
 
-        // Bind displays to financial service
+        // Bind displays to financial service dynamically
         if (financialService != null) {
             financialService.totalExpenseProperty().addListener((obs, old, newValue) ->
                     updateDisplays());
         }
     }
-
+    // Initialize the date picker to the current date
     private void initializeDatePicker() {
         if (datePicker != null) {
             datePicker.setValue(LocalDateTime.now().toLocalDate());
         }
     }
-
+    // Initialize the calculator and bind its display to the label
     private void initializeCalculator() {
         if (calculator != null && displayLabel != null) {
             calculatorController.initialize(calculator, displayLabel);
             displayLabel.textProperty().bind(calculatorController.displayValueProperty());
         }
     }
-
+    // Set up the transaction type combobox with "Expense" and "Revenue" options
     private void initializeTypeComboBox() {
         if (typeComboBox != null) {
             typeComboBox.setItems(FXCollections.observableArrayList("Expense", "Revenue"));
@@ -106,24 +107,28 @@ public class ExpenseTrackerController extends Main {
         }
     }
 
+    // Initialize the transaction history table
     private void initializeTable() {
         if (historyTable != null) {
             tableViewController.initialize(historyTable);
         }
     }
 
+    // Initialize category buttons based on the selected transaction type
     private void initializeCategoryButtons() {
         if (categorySection != null) {
             setupCategoryButtons();
         }
     }
 
+    // Set up the enter button to record transactions
     private void initializeEnterButton() {
         if (enterButton != null) {
             enterButton.setOnAction(e -> recordTransaction());
         }
     }
 
+    // Bind revenue and expense labels to properties in the financial service
     private void initializeAmountLabels() {
         if (revenueAmount != null && expenseAmount != null && balanceAmount != null) {
             revenueAmount.textProperty().bind(financialService.totalRevenueProperty().asString("$%.2f"));
@@ -132,6 +137,7 @@ public class ExpenseTrackerController extends Main {
         }
     }
 
+    // Set up category buttons dynamically based on the transaction type
     private void setupCategoryButtons() {
         categorySection.getChildren().clear();
         categoryButtons.clear();
@@ -179,6 +185,7 @@ public class ExpenseTrackerController extends Main {
         }
     }
 
+    // Select a specific category and mark it visually
     private void selectCategory(String category, VBox buttonContainer) {
         // Clear previous selection
         categoryButtons.forEach(b -> b.getStyleClass().remove("selected"));
@@ -187,6 +194,7 @@ public class ExpenseTrackerController extends Main {
         currentCategory = category;
     }
 
+    // Record a transaction with the current inputs
     private void recordTransaction() {
         if (currentCategory == null || !calculatorController.hasValue()) {
             showAlert("Error", "Please select a category and enter an amount");
@@ -219,6 +227,7 @@ public class ExpenseTrackerController extends Main {
         }
     }
 
+    // Update revenue and expense displays based on the selected date
     private void updateDisplays() {
         if (revenueAmount != null && expenseAmount != null) {
             LocalDate startDate = datePicker.getValue().minusDays(30);
@@ -230,11 +239,13 @@ public class ExpenseTrackerController extends Main {
         }
     }
 
+    // Clear the current category selection
     private void clearCategorySelection() {
         categoryButtons.forEach(b -> b.getStyleClass().remove("selected"));
         currentCategory = null;
     }
 
+    // Show an error alert
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -242,10 +253,12 @@ public class ExpenseTrackerController extends Main {
         alert.showAndWait();
     }
 
+    // Set up the statistics button to open a new window
     private void setupStatisticsButton() {
         statisticsButton.setOnAction(e -> showStatisticsWindow());
     }
 
+    // Show the statistics window
     @FXML
     private void showStatisticsWindow() {
         try {

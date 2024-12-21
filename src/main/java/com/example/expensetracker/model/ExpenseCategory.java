@@ -1,7 +1,7 @@
 package com.example.expensetracker.model;
-
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 
+// An enumeration of expense categories for financial records.
 public enum ExpenseCategory {
     FOOD("Food", "fas-utensils"),              // 🍴 Utensils
     TRANSPORT("Transport", "fas-car"),         // 🚗 Car
@@ -22,6 +22,7 @@ public enum ExpenseCategory {
         this.iconName = iconName;
     }
 
+    // Getters
     public String getDisplayName() { return displayName; }
     public String getIconName() { return iconName; }
 }
