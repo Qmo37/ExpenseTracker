@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="10" style="-fx-background-color: #2C2C2C;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20" />
+    </padding>
+
+    <!-- Filter Controls -->
+    <HBox alignment="CENTER_LEFT" spacing="20">
+        <VBox spacing="5">
+            <Label style="-fx-text-fill: white;" text="Start Date" />
+            <DatePicker fx:id="startDatePicker" />
+        </VBox>
+        <VBox spacing="5">
+            <Label style="-fx-text-fill: white;" text="End Date" />
+            <DatePicker fx:id="endDatePicker" />
+        </VBox>
+        <VBox spacing="5">
+            <Label style="-fx-text-fill: white;" text="Category" />
+            <ComboBox fx:id="categoryFilterBox" />
+        </VBox>
+      <HBox alignment="BOTTOM_RIGHT" prefHeight="50.0" prefWidth="573.0" spacing="20.0">
+         <children>
+            <Button fx:id="refreshButton" onAction="#refresh" alignment="CENTER" minHeight="0.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="84.0" style="-fx-background-color: #975DFA; -fx-background-radius: 1000;" text="REFRESH">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="closeButton" onAction="#closeWindow" alignment="CENTER" layoutX="537.0" layoutY="20.0" minHeight="0.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="68.0" style="-fx-background-color: #D0BCFF; -fx-background-radius: 1000;" text="CLOSE" />
+         </children>
+         <HBox.margin>
+            <Insets right="10.0" />
+         </HBox.margin>
+      </HBox>
+    </HBox>
+
+    <!-- Summary Labels -->
+    <HBox alignment="CENTER" spacing="50">
+        <Label fx:id="totalExpenseLabel" style="-fx-text-fill: #FF6B6B;" />
+        <Label fx:id="totalRevenueLabel" style="-fx-text-fill: #4ECB71;" />
+    </HBox>
+
+    <!-- Charts -->
+    <HBox spacing="20">
+        <VBox style="-fx-background-color: #332D41; -fx-background-radius: 16;" HBox.hgrow="ALWAYS">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+            <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="Expense Distribution" />
+            <PieChart fx:id="expensePieChart" animated="true" labelLineLength="20" labelsVisible="true" legendVisible="true" />
+        </VBox>
+        <!-- ... revenue chart ... -->
+        <VBox style="-fx-background-color: #332D41; -fx-background-radius: 16;" HBox.hgrow="ALWAYS">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+            <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="Revenue Distribution" />
+            <PieChart fx:id="revenuePieChart" animated="true" labelLineLength="20" labelsVisible="true" legendVisible="true" />
+        </VBox>
+    </HBox>
+
+    <!-- Filtered Records Table with styling -->
+    <TableView fx:id="filteredTable" style="-fx-background-color: #332D41;" styleClass="filtered-table" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="dateColumn" styleClass="table-column" text="Date" />
+            <TableColumn fx:id="typeColumn" styleClass="table-column" text="Type" />
+            <TableColumn fx:id="categoryColumn" styleClass="table-column" text="Category" />
+            <TableColumn fx:id="amountColumn" styleClass="table-column" text="Amount" />
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
+    </TableView>
+</VBox>

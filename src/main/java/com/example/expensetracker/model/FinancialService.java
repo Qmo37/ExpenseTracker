@@ -1,5 +1,6 @@
 package com.example.expensetracker.model;
 
+import javafx.beans.binding.BooleanExpression;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ public class FinancialService {
     private final ObservableList<FinancialRecord> records = FXCollections.observableArrayList();
     private double budget = 6000.0; // Default budget
     private final DoubleProperty totalExpense = new SimpleDoubleProperty(0.0);
+    private final DoubleProperty totalRevenue = new SimpleDoubleProperty(0.0);
 
     public void addRecord(FinancialRecord record) {
         records.add(record);
@@ -63,15 +65,20 @@ public class FinancialService {
                 })
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));
     }
-    public void addExpense(LocalDate date, String category, double amount) {
-        // Implementation of the addExpense method
-    }
+//    public void addExpense(LocalDate date, String category, double amount) {
+//        // Implementation of the addExpense method
+//    }
+//
+//    public double getTotalSpending() {
+//        // Implementation of the getTotalSpending method
+//        return 0.0; // Replace with actual implementation
+//    }
 
-    public double getTotalSpending() {
-        // Implementation of the getTotalSpending method
-        return 0.0; // Replace with actual implementation
-    }
     public DoubleProperty totalExpenseProperty() {
         return totalExpense;
+    }
+
+    public DoubleProperty totalRevenueProperty() {
+        return totalRevenue;
     }
 }

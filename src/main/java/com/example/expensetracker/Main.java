@@ -27,6 +27,11 @@ public class Main extends Application {
         }
     }
 
+    // Helper method to get resource path
+    public static String getResourcePath(String resource) {
+        return Main.class.getResource(resource).toExternalForm();
+    }
+
     public static void main(String[] args) {
         launch(args);
 

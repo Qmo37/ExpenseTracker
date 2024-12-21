@@ -1,8 +1,15 @@
 package com.example.expensetracker.controller;
 
+import com.example.expensetracker.Main;
 import com.example.expensetracker.model.*;
 import com.example.expensetracker.util.*;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import java.io.IOException;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -14,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.EnumSet;
 
-public class ExpenseTrackerController {
+public class ExpenseTrackerController extends Main {
     // Controllers
     private final CalculatorController calculatorController;
     private final TableViewController tableViewController;
@@ -22,6 +29,7 @@ public class ExpenseTrackerController {
 
     // Properties
     private final DoubleProperty budget = new SimpleDoubleProperty(6000.0);
+    public ScrollPane categoryScrollPane;
     private String currentCategory = null;
     private FinancialRecord.TransactionType currentType = FinancialRecord.TransactionType.EXPENSE;
 
@@ -30,11 +38,14 @@ public class ExpenseTrackerController {
     @FXML private DatePicker datePicker;
     @FXML private GridPane calculator;
     @FXML private TableView<FinancialRecord> historyTable;
-    @FXML private Label budgetLabel;
-    @FXML private Label spendingLabel;
+    @FXML private Label revenueLabel;
+    @FXML private Label expenseLabel;
+    @FXML private Label revenueAmount;
+    @FXML private Label expenseAmount;
     @FXML private Button enterButton;
     @FXML private VBox categorySection;
     @FXML private ComboBox<String> typeComboBox; // Changed to String type
+    @FXML private Button statisticsButton;
 
     private final List<Button> categoryButtons = new ArrayList<>();
 
@@ -53,6 +64,7 @@ public class ExpenseTrackerController {
         initializeCategoryButtons();
         initializeEnterButton();
         updateDisplays();
+        initializeAmountLabels();
 
         // Bind displays to financial service
         if (financialService != null) {
@@ -102,6 +114,13 @@ public class ExpenseTrackerController {
     private void initializeEnterButton() {
         if (enterButton != null) {
             enterButton.setOnAction(e -> recordTransaction());
+        }
+    }
+
+    private void initializeAmountLabels() {
+        if (revenueAmount != null && expenseAmount != null) {
+            revenueAmount.textProperty().bind(financialService.totalRevenueProperty().asString());
+            expenseAmount.textProperty().bind(financialService.totalExpenseProperty().asString());
         }
     }
 
@@ -179,13 +198,13 @@ public class ExpenseTrackerController {
     }
 
     private void updateDisplays() {
-        if (budgetLabel != null && spendingLabel != null) {
+        if (revenueLabel != null && expenseLabel != null) {
             LocalDate startDate = datePicker.getValue().minusDays(30);
             LocalDate endDate = datePicker.getValue();
 
             FinancialSummary summary = financialService.generateSummary(startDate, endDate);
-            budgetLabel.setText(String.format("Budget: %s", CurrencyUtil.formatCurrency(budget.get())));
-            spendingLabel.setText(String.format("Spending: %s", CurrencyUtil.formatCurrency(summary.getTotalExpense())));
+            revenueLabel.setText(String.format("Budget: %s", CurrencyUtil.formatCurrency(budget.get())));
+            expenseLabel.setText(String.format("Spending: %s", CurrencyUtil.formatCurrency(summary.getTotalExpense())));
         }
     }
 
@@ -199,5 +218,41 @@ public class ExpenseTrackerController {
         alert.setTitle(title);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    private void setupStatisticsButton() {
+        statisticsButton.setOnAction(e -> showStatisticsWindow());
+    }
+
+    @FXML
+    private void showStatisticsWindow() {
+        try {
+            // Use Main class to load FXML
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/com/example/expensetracker/statistics-view.fxml"));
+
+            // Create and set controller
+            StatisticsController statisticsController = new StatisticsController(financialService);
+            loader.setController(statisticsController);
+
+            // Create new stage and scene
+            Stage statisticsStage = new Stage();
+            Scene scene = new Scene(loader.load());
+
+            // Add stylesheet to match main window
+            scene.getStylesheets().add(Main.class.getResource("/com/example/expensetracker/styles.css").toExternalForm());
+
+            // Configure stage
+            statisticsStage.initStyle(StageStyle.UNDECORATED);  // Match main window style
+            statisticsStage.setTitle("Statistics");
+            statisticsStage.setScene(scene);
+            statisticsStage.initModality(Modality.WINDOW_MODAL);
+            statisticsStage.initOwner(calculator.getScene().getWindow());
+
+            statisticsStage.show();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            showAlert("Error", "Could not load statistics window: " + ex.getMessage());
+        }
     }
 }
